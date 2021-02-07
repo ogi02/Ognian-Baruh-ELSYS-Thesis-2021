@@ -1,6 +1,3 @@
-# uploading only pdf files
-*.docx
-
 # not uploading .DS_Store files
 **/.DS_Store
 
