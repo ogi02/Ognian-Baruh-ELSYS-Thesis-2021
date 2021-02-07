@@ -4,6 +4,12 @@
 # not uploading .DS_Store files
 **/.DS_Store
 
+# not uploading npz files
+**/*.npz
+
+# not uploading Pipfile.lock
+src/Pipfile.lock
+
 # not uploading images
 # exam images are images for testing
 src/face-verification/exam/*
