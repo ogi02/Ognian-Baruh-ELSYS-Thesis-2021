@@ -34,6 +34,10 @@ def extract_single_face(filename, required_size=(224, 224)):
 	# detect faces in the image
 	results = detector.detect_faces(pixels)
 
+	# check if faces are detected
+	if not results:
+		return False
+
 	# get the first face (only face) 
 	face = results[0]
 
@@ -62,6 +66,10 @@ def extract_multiple_faces(filename, required_size=(224, 224)):
 
 	# detect faces in the image
 	results = detector.detect_faces(pixels)
+
+	# check if faces are detected
+	if not results:
+		return False
 
 	faces = list()
 	# extract every face from the image
@@ -103,8 +111,9 @@ def load_faces(directory):
 		# extract face
 		face = extract_single_face(image_path)
 
-		# append face to the list of faces
-		faces.append(face)
+		# append face to the list of faces if face iss detected
+		if face:
+			faces.append(face)
 
 	return faces
 

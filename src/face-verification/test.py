@@ -62,6 +62,12 @@ def test_multiple_faces(filename, model, trainX, trainY):
 	# extract faces of all candidates
 	candidate_faces = extract_multiple_faces(filename)
 
+	if not candidate_faces:
+		print('---------------------------')
+		print('Filename: {}'.format(filename))
+		print('No faces detected')
+		return
+
 	# get face embeddings of all candidates
 	candidate_embeddings = list()
 	for face in candidate_faces:
