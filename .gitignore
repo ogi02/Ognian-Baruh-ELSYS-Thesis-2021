@@ -1,0 +1,11 @@
+# uploading only pdf files
+*.docx
+
+# not uploading .DS_Store files
+**/.DS_Store
+
+# not uploading images
+# exam images are images for testing
+src/face-verification/exam/*
+# dataset images are images for training
+src/face-verification/dataset/*
