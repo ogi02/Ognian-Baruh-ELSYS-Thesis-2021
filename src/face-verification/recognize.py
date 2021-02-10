@@ -1,5 +1,6 @@
 # library imports
 import numpy as np
+from argparse import ArgumentParser
 from keras_vggface.vggface import VGGFace
 from scipy.spatial.distance import cosine
 
@@ -26,7 +27,7 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 		passed = 0
 		label = 'Unknown'
 
-		# guesses dictionary
+		# dictionary for guesses
 		guesses = {label: 0 for label in known_labels}
 
 		# iterate through known face embeddings
@@ -39,7 +40,6 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 				guesses[known_labels[i]] += 1
 
 			i += 1
-
 
 		label = 'Unknown'
 		max_passed = 0
@@ -58,13 +58,11 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 
 	return faces
 
-def test_multiple_faces(filename, model, trainX, trainY):
+def recognize_faces(model, trainX, trainY, **kwargs):
 	# extract faces of all candidates
-	candidate_faces = extract_multiple_faces(filename)
+	candidate_faces = extract_multiple_faces(**kwargs)
 
 	if not candidate_faces:
-		print('---------------------------')
-		print('Filename: {}'.format(filename))
 		print('No faces detected')
 		return
 
@@ -77,32 +75,27 @@ def test_multiple_faces(filename, model, trainX, trainY):
 		# insert face embedding
 		candidate_embeddings.append(candidate_face_embedding)
 
+	# check faces for all candidates
 	names = check_candidate_faces(trainX, trainY, candidate_embeddings)
 
-	print('---------------------------')
-	print('Filename: {}'.format(filename))
 	print('Guess: {}'.format(names))
 
-# load known face embeddings 
-data = np.load('embeddings.npz')
-trainX, trainY = data['arr_0'], data['arr_1']
 
-# initialize vggface model
-model = VGGFace(model='resnet50', include_top=False, input_shape=(224, 224, 3), pooling='avg')
+if __name__ == '__main__':
+	parser = ArgumentParser()
+	group = parser.add_mutually_exclusive_group(required=True)
+	group.add_argument('--url', help='image from url')
+	group.add_argument('--filename', help='image from file')
+	args = parser.parse_args()
 
-# define filename
-# filename = './exam/exam_ogi.jpg'
-directory = './exam/'
+	kwargs = dict(url=args.url, filename=args.filename)
 
-# iterate through all files
-for file in listdir(directory):
-	# make sure that the file is an image
-	if not file.lower().endswith(('.png', '.jpg', '.jpeg')):
-		continue
+	# load known face embeddings 
+	data = np.load('embeddings.npz')
+	trainX, trainY = data['arr_0'], data['arr_1']
 
-	# get filename
-	filename = directory + file
+	# initialize vggface model
+	model = VGGFace(model='resnet50', include_top=False, input_shape=(224, 224, 3), pooling='avg')
 
-	test_multiple_faces(filename, model, trainX, trainY)
-
-print('---------------------------\n')
+	# perform face recognition
+	recognize_faces(model, trainX, trainY, **kwargs)

@@ -3,16 +3,24 @@ from PIL import Image
 from os import listdir
 from numpy import asarray
 from os.path import isdir
-from matplotlib import pyplot
 from mtcnn.mtcnn import MTCNN
+from urllib.request import urlopen
 
 # init the detector
 detector = MTCNN()
 
 # detect all faces in an image
-def get_pixels(filename):
-	# open the image
-	image = Image.open(filename)
+def get_pixels(**kwargs):
+	# extract key word args
+	url = kwargs.get('url', None)
+	filename = kwargs.get('filename', None)
+
+	if filename is not None:
+		# open the image from file
+		image = Image.open(filename)
+	elif url is not None:
+		# open the image from url
+		image = Image.open(urlopen(url))
 
 	# convert to RGB if image is black and white
 	image = image.convert('RGB')
@@ -27,9 +35,9 @@ def get_pixels(filename):
 	return pixels
 
 # extract a single face from a given image
-def extract_single_face(filename, required_size=(224, 224)): 
+def extract_single_face(required_size=(224, 224), **kwargs):
 	# open the image and get the pixels
-	pixels = get_pixels(filename)
+	pixels = get_pixels(**kwargs)
 
 	# detect faces in the image
 	results = detector.detect_faces(pixels)
@@ -60,9 +68,9 @@ def extract_single_face(filename, required_size=(224, 224)):
 	return asarray(image)
 
 # extract a single face from a given image
-def extract_multiple_faces(filename, required_size=(224, 224)): 
+def extract_multiple_faces(required_size=(224, 224), **kwargs):
 	# open the image and get the pixels
-	pixels = get_pixels(filename)
+	pixels = get_pixels(**kwargs)
 
 	# detect faces in the image
 	results = detector.detect_faces(pixels)
@@ -109,7 +117,7 @@ def load_faces(directory):
 		image_path = directory + filename
 
 		# extract face
-		face = extract_single_face(image_path)
+		face = extract_single_face(filename=image_path)
 
 		# append face to the list of faces if face iss detected
 		if face:
