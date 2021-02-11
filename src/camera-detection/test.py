@@ -4,21 +4,21 @@ import requests
 
 import paho.mqtt.client as mqtt
 
-def on_connect(self, userdata, flags, rc):
+def client_on_connect(self, userdata, flags, rc):
 	print("Connected")
 
 
 
-def on_message(self, userdata, msg):
+def client_on_message(self, userdata, msg):
 	print("Received message")
-
+	print(msg)
 
 
 client = mqtt.Client("test", None, None, mqtt.MQTTv311)
 client.on_connect = client_on_connect
 client.on_message = client_on_message
 
-client.connect("172.22.150.233", 1883, 60)
+client.connect("tcp://172.22.150.233", 1883, 60)
 
 # functionalItemId = 'da:item:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009/Media-0/1:MediaService'
 # operation = 'getSnapshotUri'
