@@ -9,8 +9,6 @@ from face_extract_utils import load_dataset
 from face_extract_utils import extract_single_face
 from face_extract_utils import extract_multiple_faces
 from face_embedding_utils import get_face_embedding
-
-from os import listdir
  
 # determine if a candidate face is a match for a known face
 def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, thresh=0.5):
