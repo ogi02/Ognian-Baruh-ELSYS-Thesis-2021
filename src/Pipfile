@@ -14,7 +14,6 @@ h5py = "*"
 pathlib = "*"
 mtcnn = "*"
 pillow = "*"
-scikit-learn = "*"
 keras-vggface = "*"
 keras-applications = "*"
 
