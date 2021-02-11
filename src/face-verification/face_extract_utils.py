@@ -1,10 +1,12 @@
 # library imports
+import requests
 from PIL import Image
+from io import BytesIO
 from os import listdir
 from numpy import asarray
 from os.path import isdir
 from mtcnn.mtcnn import MTCNN
-from urllib.request import urlopen
+from requests.auth import HTTPDigestAuth
 
 # init the detector
 detector = MTCNN()
@@ -15,12 +17,18 @@ def get_pixels(**kwargs):
 	url = kwargs.get('url', None)
 	filename = kwargs.get('filename', None)
 
+	# if image is from a file
 	if filename is not None:
 		# open the image from file
 		image = Image.open(filename)
+
+	# if image is from url
 	elif url is not None:
-		# open the image from url
-		image = Image.open(urlopen(url))
+		# perform get request
+		resp = requests.get(url, auth=HTTPDigestAuth('service', 'Admin!234'), stream=True)
+
+		# open image with the raw result from response
+		image = Image.open(resp.raw)
 
 	# convert to RGB if image is black and white
 	image = image.convert('RGB')
