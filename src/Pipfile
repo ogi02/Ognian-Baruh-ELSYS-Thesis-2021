@@ -7,7 +7,6 @@ verify_ssl = true
 
 [packages]
 keras = "*"
-tensorflow = "*"
 pandas = "*"
 opencv-python = "*"
 h5py = "*"
