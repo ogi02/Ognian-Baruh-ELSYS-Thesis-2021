@@ -61,8 +61,7 @@ def recognize_faces(model, trainX, trainY, **kwargs):
 	candidate_faces = extract_multiple_faces(**kwargs)
 
 	if not candidate_faces:
-		print('No faces detected')
-		return
+		return ['No faces detected']
 
 	# get face embeddings of all candidates
 	candidate_embeddings = list()
@@ -76,7 +75,7 @@ def recognize_faces(model, trainX, trainY, **kwargs):
 	# check faces for all candidates
 	names = check_candidate_faces(trainX, trainY, candidate_embeddings)
 
-	print('Guess: {}'.format(names))
+	return names
 
 
 if __name__ == '__main__':
@@ -89,11 +88,13 @@ if __name__ == '__main__':
 	kwargs = dict(url=args.url, filename=args.filename)
 
 	# load known face embeddings 
-	data = np.load('embeddings.npz')
+	data = np.load('../face-verification/embeddings.npz')
 	trainX, trainY = data['arr_0'], data['arr_1']
 
 	# initialize vggface model
 	model = VGGFace(model='resnet50', include_top=False, input_shape=(224, 224, 3), pooling='avg')
 
 	# perform face recognition
-	recognize_faces(model, trainX, trainY, **kwargs)
+	res = recognize_faces(model, trainX, trainY, **kwargs)
+
+	print(res, end='')
