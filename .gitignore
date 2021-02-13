@@ -4,8 +4,8 @@
 # not uploading npz files
 **/*.npz
 
-# not uploading Pipfile.lock
-src/Pipfile.lock
+# not uploading environment downloads
+src/env
 
 # not uploading images
 # exam images are images for testing
