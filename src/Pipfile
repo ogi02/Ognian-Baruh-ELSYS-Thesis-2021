@@ -6,12 +6,9 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-keras = "*"
-opencv-python = "*"
-h5py = "*"
+keras = "==2.1.5"
 pathlib = "*"
 mtcnn = "*"
-pillow = "*"
 keras-vggface = "*"
 keras-applications = "*"
 paho-mqtt = "*"
