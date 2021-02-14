@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/welcome/welcome.dart';
+import 'package:mobile/screens/authenticate/welcome.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: Welcome(),
+    home: Authenticate(),
   ));
 }
 

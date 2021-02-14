@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "525804103301",
+    "project_id": "iot-home-system-7dab8",
+    "storage_bucket": "iot-home-system-7dab8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525804103301:android:5899038c49fafef9b76bec",
+        "android_client_info": {
+          "package_name": "org.elsys.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "525804103301-jekc202jac9obhpdkvrndk91qi9622mu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzMjADgI4EH62R4_TG6bQNYDzOhiG2yyE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "525804103301-jekc202jac9obhpdkvrndk91qi9622mu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "525804103301-6efa7m96dbp3smqvljlqc0rbfsd5ui5q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.elsys.mobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

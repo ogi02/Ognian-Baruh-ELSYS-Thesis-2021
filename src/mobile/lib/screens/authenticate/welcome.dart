@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:mobile/screens/welcome/components/components.dart';
+import 'package:mobile/screens/authenticate/components/components.dart';
 
-class Welcome extends StatelessWidget {
+class Authenticate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
