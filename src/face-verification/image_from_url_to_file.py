@@ -20,7 +20,7 @@ def get_image_from_url(url, number):
 	image = image.convert('RGB')
 
 	# save image
-	image = image.save('{}/exam_{}.jpg'.format(path_name, number))
+	image = image.save('{}/image_{}.jpg'.format(path_name, number))
 
 if __name__ == '__main__':
 	# check if url is not given
