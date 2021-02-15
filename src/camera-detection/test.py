@@ -1,24 +1,48 @@
 import os
+import sys
 import json
 import requests
+import subprocess
 
 import paho.mqtt.client as mqtt
 
+#b'{
+#"topic":"finalyearproj/test1:da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009/things/twin/commands/modify","headers":{"
+#response-required":false,"correlation-id":"5aa6ab40-09ed-4291-951c-0f3b26bcf878"},"path":"/features/Detector:%2FEventsService%2F1/properties/status/detected","value":true}'
+
+tenant_id = 'ta5c5ad439fe14b32af99092f74e594eb_hub'
+subscription = 'finalyearproj'
+namespace = 'test1'
+device_uid = 'da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009'
+
+topic = 'e/' + tenant_id + '/' + subscription + ':' + namespace + ':' + device_uid
+
 def client_on_connect(self, userdata, flags, rc):
 	print("Connected")
-
+	client.subscribe(topic)
 
 
 def client_on_message(self, userdata, msg):
 	print("Received message")
-	print(msg)
+	payload = json.loads(msg.payload.decode('utf-8'))
+	print(payload["path"])
+	print(payload["value"])
+	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
+		print('vliza')
+		output = subprocess.check_output([sys.executable, '../face-verification/recognize.py', '--url', 'http://172.22.172.33/snap.jpg?JpegCam=1'])
+		names = output.decode('utf-8')
+		print(names)
+		client.disconnect()
+		sys.exit(0)
 
 
 client = mqtt.Client("test", None, None, mqtt.MQTTv311)
 client.on_connect = client_on_connect
 client.on_message = client_on_message
 
-client.connect("tcp://172.22.150.233", 1883, 60)
+client.connect("172.22.150.239", 1883, 60)
+
+client.loop_forever()
 
 # functionalItemId = 'da:item:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009/Media-0/1:MediaService'
 # operation = 'getSnapshotUri'
