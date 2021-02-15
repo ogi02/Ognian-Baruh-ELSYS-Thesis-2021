@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/colors.dart';
 
 class BodyIcon extends StatelessWidget {
   @override
@@ -7,7 +8,7 @@ class BodyIcon extends StatelessWidget {
       child: Icon(
         Icons.home_outlined,
         size: 96.0,
-        color: Colors.amberAccent[400],
+        color: yellow,
       ),
       margin: EdgeInsets.all(24.0),
       padding: EdgeInsets.symmetric(

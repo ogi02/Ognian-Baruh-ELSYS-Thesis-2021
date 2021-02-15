@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/colors.dart';
 
 class BodyTitle extends StatelessWidget {
   @override
@@ -7,7 +8,7 @@ class BodyTitle extends StatelessWidget {
       child: Text(
         "Control your IoT Devices",
         style: TextStyle(
-          color: Colors.white70,
+          color: blue,
           fontSize: 24.0,
           fontWeight: FontWeight.bold,
         ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/colors.dart';
 
-import 'package:mobile/screens/login/login.dart';
+import 'package:mobile/screens/signin/signin.dart';
 
-class LoginButton extends StatelessWidget {
+class SignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,14 +13,20 @@ class LoginButton extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Login()),
+              MaterialPageRoute(builder: (context) => SignIn()),
             );
           },
           icon: Icon(
-              Icons.people_outline
+            Icons.people_outline,
+            color: white,
           ),
-          label: Text("Login"),
-          color: Colors.amberAccent[400],
+          label: Text(
+            "Sign In",
+            style: TextStyle(
+              color: white,
+            ),
+          ),
+          color: blue,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),

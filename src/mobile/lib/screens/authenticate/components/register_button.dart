@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/colors.dart';
+import 'package:mobile/screens/register/register.dart';
 
 class RegisterButton extends StatelessWidget {
   @override
@@ -7,12 +9,23 @@ class RegisterButton extends StatelessWidget {
       child: SizedBox(
         width: 150.0,
         child: RaisedButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Register()),
+            );
+          },
           icon: Icon(
-              Icons.person_add_alt_1_outlined
+            Icons.person_add_alt_1_outlined,
+            color: white,
           ),
-          label: Text("Register"),
-          color: Colors.amberAccent[400],
+          label: Text(
+            "Register",
+            style: TextStyle(
+              color: white,
+            ),
+          ),
+          color: blue,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),

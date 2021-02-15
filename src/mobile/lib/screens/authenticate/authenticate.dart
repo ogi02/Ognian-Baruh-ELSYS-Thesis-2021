@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/colors.dart';
 
 import 'package:mobile/screens/authenticate/components/components.dart';
 
@@ -6,15 +7,15 @@ class Authenticate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[800],
+      backgroundColor: white,
       appBar: AppBar(
         title: Text(
           "IoT Home System",
           style: TextStyle(
-            color: Colors.amberAccent[400],
+            color: white,
           ),
         ),
-        backgroundColor: Colors.grey[900],
+        backgroundColor: blue,
       ),
       body: Container(
         child: Center(
@@ -28,8 +29,8 @@ class Authenticate extends StatelessWidget {
               Container(
                 child: Column(
                   children: [
-                    // Login
-                    LoginButton(),
+                    // Sign in
+                    SignInButton(),
                     // Register
                     RegisterButton(),
                   ],
