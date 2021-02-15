@@ -29,7 +29,7 @@ def client_on_message(self, userdata, msg):
 	print(payload["value"])
 	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
 		
-		subprocess.call("../face-verification/image_from_url_to_file.py", "\"http://172.22.172.33/snap.jpg?JpegCam=1\"")
+		subprocess.call(["../face-verification/image_from_url_to_file.py", "\"http://172.22.172.33/snap.jpg?JpegCam=1\""])
 		
 		for i in range(10):
 			output = subprocess.check_output([sys.executable, "../face-verification/recognize.py", "./camera-images/image_{}".format(i)])
