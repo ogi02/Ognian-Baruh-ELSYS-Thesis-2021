@@ -12,23 +12,9 @@ from requests.auth import HTTPDigestAuth
 detector = MTCNN()
 
 # detect all faces in an image
-def get_pixels(**kwargs):
-	# extract key word args
-	url = kwargs.get('url', None)
-	filename = kwargs.get('filename', None)
-
-	# if image is from a file
-	if filename is not None:
-		# open the image from file
-		image = Image.open(filename)
-
-	# if image is from url
-	elif url is not None:
-		# perform get request
-		resp = requests.get(url, auth=HTTPDigestAuth('service', 'Admin!234'), stream=True)
-
-		# open image with the raw result from response
-		image = Image.open(resp.raw)
+def get_pixels(filename):
+	# open the image from file
+	image = Image.open(filename)
 
 	# convert to RGB if image is black and white
 	image = image.convert('RGB')
@@ -43,9 +29,9 @@ def get_pixels(**kwargs):
 	return pixels
 
 # extract a single face from a given image
-def extract_single_face(required_size=(224, 224), **kwargs):
+def extract_single_face(filename, required_size=(224, 224)):
 	# open the image and get the pixels
-	pixels = get_pixels(**kwargs)
+	pixels = get_pixels(filename)
 
 	# detect faces in the image
 	results = detector.detect_faces(pixels)
@@ -76,9 +62,9 @@ def extract_single_face(required_size=(224, 224), **kwargs):
 	return asarray(image)
 
 # extract a single face from a given image
-def extract_multiple_faces(required_size=(224, 224), **kwargs):
+def extract_multiple_faces(filename, required_size=(224, 224)):
 	# open the image and get the pixels
-	pixels = get_pixels(**kwargs)
+	pixels = get_pixels(filename)
 
 	# detect faces in the image
 	results = detector.detect_faces(pixels)
@@ -125,7 +111,7 @@ def load_faces(directory):
 		image_path = directory + filename
 
 		# extract face
-		face = extract_single_face(filename=image_path)
+		face = extract_single_face(image_path)
 
 		# append face to the list of faces if face iss detected
 		if face:

@@ -1,5 +1,6 @@
 # library imports
 import numpy as np
+from sys import argv, exit
 from argparse import ArgumentParser
 from keras_vggface.vggface import VGGFace
 from scipy.spatial.distance import cosine
@@ -56,9 +57,9 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 
 	return faces
 
-def recognize_faces(model, trainX, trainY, **kwargs):
+def recognize_faces(filename, model, trainX, trainY):
 	# extract faces of all candidates
-	candidate_faces = extract_multiple_faces(**kwargs)
+	candidate_faces = extract_multiple_faces(filenames)
 
 	if not candidate_faces:
 		return ['No faces detected']
@@ -79,13 +80,13 @@ def recognize_faces(model, trainX, trainY, **kwargs):
 
 
 if __name__ == '__main__':
-	parser = ArgumentParser()
-	group = parser.add_mutually_exclusive_group(required=True)
-	group.add_argument('--url', help='image from url')
-	group.add_argument('--filename', help='image from file')
-	args = parser.parse_args()
+	# get filename from argv
+	filename = argv[1]
 
-	kwargs = dict(url=args.url, filename=args.filename)
+	# check if filename is given
+	if not filename:
+		print('Please enter path to image!')
+		exit(0)
 
 	# load known face embeddings 
 	data = np.load('../face-verification/embeddings.npz')
@@ -95,6 +96,6 @@ if __name__ == '__main__':
 	model = VGGFace(model='resnet50', include_top=False, input_shape=(224, 224, 3), pooling='avg')
 
 	# perform face recognition
-	res = recognize_faces(model, trainX, trainY, **kwargs)
+	res = recognize_faces(filename, model, trainX, trainY)
 
 	print(res, end='')
