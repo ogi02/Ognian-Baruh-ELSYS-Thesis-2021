@@ -61,11 +61,8 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 	return faces
 
 def recognize_faces(filename, trainX, trainY, start_time):
-	# init the detector
-	detector = MTCNN()
-	
 	# extract faces of all candidates
-	candidate_faces = extract_multiple_faces(filename, detector)
+	candidate_faces = extract_multiple_faces(filename)
 
 	print("2")
 	print("--- %s seconds ---" % (time.time() - start_time))

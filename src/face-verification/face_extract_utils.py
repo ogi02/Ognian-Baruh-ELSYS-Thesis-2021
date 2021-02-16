@@ -8,6 +8,9 @@ from os.path import isdir
 from mtcnn.mtcnn import MTCNN
 from requests.auth import HTTPDigestAuth
 
+# init the detector
+detector = MTCNN()
+
 # detect all faces in an image
 def get_pixels(filename):
 	# open the image from file
