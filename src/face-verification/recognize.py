@@ -2,6 +2,7 @@
 # library imports
 import numpy as np
 from sys import argv, exit
+from mtcnn.mtcnn import MTCNN
 from argparse import ArgumentParser
 from keras_vggface.vggface import VGGFace
 from scipy.spatial.distance import cosine
@@ -59,8 +60,11 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 	return faces
 
 def recognize_faces(filename, trainX, trainY):
+	# init the detector
+	detector = MTCNN()
+	
 	# extract faces of all candidates
-	candidate_faces = extract_multiple_faces(filename)
+	candidate_faces = extract_multiple_faces(filename, detector)
 
 	print("2")
 
