@@ -3,6 +3,8 @@ import sys
 import json
 import requests
 import subprocess
+from shutil import rmtree
+from os.path import exists
 
 import paho.mqtt.client as mqtt
 
@@ -28,11 +30,14 @@ def client_on_message(self, userdata, msg):
 	print(payload["path"])
 	print(payload["value"])
 	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
-		
-		subprocess.call(["../face-verification/image_from_url_to_file.py", "\"http://172.22.172.33/snap.jpg?JpegCam=1\""])
-		
+
+		if exists("./camera_images"):
+			rmtree("./camera_images")
+
+		subprocess.call(["../face-verification/image_from_url_to_file.py", "http://172.22.172.33/snap.jpg?JpegCam=1"])
+
 		for i in range(10):
-			output = subprocess.check_output([sys.executable, "../face-verification/recognize.py", "./camera-images/image_{}".format(i)])
+			output = subprocess.check_output([sys.executable, "../face-verification/recognize.py", "./camera_images/image_{}.jpg".format(i)])
 			names = output.decode("utf-8")
 			print(names)
 

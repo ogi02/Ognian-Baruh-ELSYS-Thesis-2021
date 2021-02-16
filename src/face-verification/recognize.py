@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # library imports
 import numpy as np
 from sys import argv, exit
@@ -59,7 +60,7 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 
 def recognize_faces(filename, model, trainX, trainY):
 	# extract faces of all candidates
-	candidate_faces = extract_multiple_faces(filenames)
+	candidate_faces = extract_multiple_faces(filename)
 
 	if not candidate_faces:
 		return ['No faces detected']

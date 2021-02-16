@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from os import mkdir
 from sys import argv
 from sys import exit
@@ -38,4 +39,4 @@ if __name__ == '__main__':
 	# create images
 	for i in range(10):
 		sleep(0.1)
-		get_image_from_url(url, i + 1)
+		get_image_from_url(url, i)
