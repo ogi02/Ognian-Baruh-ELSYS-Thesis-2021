@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # library imports
+import time
 import numpy as np
 from sys import argv, exit
 from mtcnn.mtcnn import MTCNN
@@ -59,7 +60,7 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 
 	return faces
 
-def recognize_faces(filename, trainX, trainY):
+def recognize_faces(filename, trainX, trainY, start_time):
 	# init the detector
 	detector = MTCNN()
 	
@@ -67,6 +68,7 @@ def recognize_faces(filename, trainX, trainY):
 	candidate_faces = extract_multiple_faces(filename, detector)
 
 	print("2")
+	print("--- %s seconds ---" % (time.time() - start_time))
 
 	if not candidate_faces:
 		return ['No faces detected']
@@ -75,6 +77,7 @@ def recognize_faces(filename, trainX, trainY):
 	model = VGGFace(model='resnet50', include_top=False, input_shape=(224, 224, 3), pooling='avg')
 
 	print("3")
+	print("--- %s seconds ---" % (time.time() - start_time))
 
 	# get face embeddings of all candidates
 	candidate_embeddings = list()
@@ -86,16 +89,21 @@ def recognize_faces(filename, trainX, trainY):
 		candidate_embeddings.append(candidate_face_embedding)
 
 	print("4")
+	print("--- %s seconds ---" % (time.time() - start_time))
 
 	# check faces for all candidates
 	names = check_candidate_faces(trainX, trainY, candidate_embeddings)
 
 	print("5")
+	print("--- %s seconds ---" % (time.time() - start_time))
 
 	return names
 
 
 if __name__ == '__main__':
+
+	start_time = time.time()
+
 	# get filename from argv
 	filename = argv[1]
 
@@ -109,8 +117,9 @@ if __name__ == '__main__':
 	trainX, trainY = data['arr_0'], data['arr_1']
 
 	print("1")
+	print("--- %s seconds ---" % (time.time() - start_time))
 
 	# perform face recognition
-	res = recognize_faces(filename, trainX, trainY)
+	res = recognize_faces(filename, trainX, trainY, start_time)
 
 	print(res, end='')
