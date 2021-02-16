@@ -19,3 +19,6 @@ src/Pipfile.lock
 src/face-verification/exam/*
 # dataset images are images for training
 src/face-verification/dataset/*
+
+src/vggface16/dataset/*
+src/vggface16/exam/*
