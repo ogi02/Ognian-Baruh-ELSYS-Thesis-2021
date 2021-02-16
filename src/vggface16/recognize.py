@@ -68,6 +68,9 @@ def recognize_faces(filename, trainX, trainY, start_time):
 	if not candidate_faces:
 		return ['No faces detected']
 
+	# initialize vggface model
+	model = VGGFace(model='vgg16', include_top=False, input_shape=(224, 224, 3), pooling='avg')
+
 	print("3")
 	print("--- %s seconds ---" % (time.time() - start_time))
 
@@ -75,7 +78,7 @@ def recognize_faces(filename, trainX, trainY, start_time):
 	candidate_embeddings = list()
 	for face in candidate_faces:
 		# get face embedding
-		candidate_face_embedding = get_face_embedding(face)
+		candidate_face_embedding = get_face_embedding(face, model)
 
 		# insert face embedding
 		candidate_embeddings.append(candidate_face_embedding)

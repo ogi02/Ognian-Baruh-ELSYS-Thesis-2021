@@ -13,9 +13,12 @@ def save_dataset(trainX, trainY):
 def save_embeddings(trainX, trainY):
 	newTrainX = list()
 
+	# initialize vggface model
+	model = VGGFace(model='vgg16', include_top=False, input_shape=(224, 224, 3), pooling='avg')
+
 	# convert each face in the train set to an embedding
 	for face_pixels in trainX:
-		embedding = get_face_embedding(face_pixels)
+		embedding = get_face_embedding(face_pixels, model)
 		newTrainX.append(embedding)
 
 	# convert list to np array
