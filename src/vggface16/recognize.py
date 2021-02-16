@@ -4,6 +4,7 @@ import time
 import numpy as np
 from sys import argv, exit
 from argparse import ArgumentParser
+from keras_vggface.vggface import VGGFace
 from scipy.spatial.distance import cosine
 
 # custom functions imports

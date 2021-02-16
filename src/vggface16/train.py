@@ -1,5 +1,6 @@
 # library imports
 from numpy import asarray, savez_compressed
+from keras_vggface.vggface import VGGFace
 
 # custom functions imports
 from face_extract_utils import load_dataset
