@@ -4,7 +4,7 @@ from os import mkdir
 from sys import exit, argv
 from getopt import getopt, GetoptError
 
-path = './dataset/'
+PATH = "./dataset/"
 
 def get_name(argv):
 	# init first name and last name
@@ -32,7 +32,7 @@ def get_name(argv):
 
 def create_dir(name):
 	# create full path
-	full_path = path + name
+	full_path = PATH + name
 
 	# create directory
 	mkdir(full_path)

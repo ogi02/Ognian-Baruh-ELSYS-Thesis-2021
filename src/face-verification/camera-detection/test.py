@@ -15,6 +15,10 @@ from keras_vggface.vggface import VGGFace
 
 from vggface16.recognize import recognize_faces
 
+MODEL_NAME = 'vgg16'
+EMBEDDING_FILE = "./models/embeddings.npz"
+CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
+
 #b"{
 #"topic":"finalyearproj/test1:da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009/things/twin/commands/modify","headers":{"
 #response-required":false,"correlation-id":"5aa6ab40-09ed-4291-951c-0f3b26bcf878"},"path":"/features/Detector:%2FEventsService%2F1/properties/status/detected","value":true}"
@@ -55,14 +59,14 @@ def client_on_message(self, userdata, msg):
 if __name__ == "__main__":
 
 	# load known face embeddings 
-	data = load('./models/embeddings.npz')
-	trainX, trainY = data['arr_0'], data['arr_1']
+	data = load(EMBEDDING_FILE)
+	trainX, trainY = data["arr_0"], data["arr_1"]
 
 	# initialize cascade classifier
-	classifier = CascadeClassifier('./models/haarcascade_frontalface_default.xml')
+	classifier = CascadeClassifier(CASCADE_CLASSIFIER_FILE)
 
 	# initialize vggface model
-	model = VGGFace(model='vgg16', include_top=False, input_shape=(160, 160, 3), pooling='avg')
+	model = VGGFace(model=MODEL_NAME, include_top=False, input_shape=(160, 160, 3), pooling="avg")
 
 	# # initialize mqqt client
 	# client = mqtt.Client("test", None, None, mqtt.MQTTv311)

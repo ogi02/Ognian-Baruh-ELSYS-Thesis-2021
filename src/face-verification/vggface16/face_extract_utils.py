@@ -7,13 +7,18 @@ from numpy import asarray
 from os.path import isdir
 from requests.auth import HTTPDigestAuth
 
+IMAGE_WIDTH = 160
+IMAGE_HEIGHT = 160
+REQUIRED_SIZE = [IMAGE_WIDTH, IMAGE_HEIGHT]
+ALLOWED_EXTENSIONS = [".png", ".jpg", ".jpeg"]
+
 # detect all faces in an image
 def get_pixels(filename):
 	# open the image from file
 	image = Image.open(filename)
 
 	# convert to RGB if image is black and white
-	image = image.convert('RGB')
+	image = image.convert("RGB")
 
 	# convert image to numpy array
 	# numpy array is a 3 dimensional array
@@ -25,7 +30,7 @@ def get_pixels(filename):
 	return pixels
 
 # extract a single face from a given image
-def extract_single_face(filename, classifier, required_size=(160, 160)):
+def extract_single_face(filename, classifier, required_size=REQUIRED_SIZE):
 	# open the image and get the pixels
 	pixels = get_pixels(filename)
 
@@ -52,7 +57,7 @@ def extract_single_face(filename, classifier, required_size=(160, 160)):
 	return asarray(image)
 
 # extract a single face from a given image
-def extract_multiple_faces(filename, classifier, required_size=(160, 160)):
+def extract_multiple_faces(filename, classifier, required_size=REQUIRED_SIZE):
 	# open the image and get the pixels
 	pixels = get_pixels(filename)
 
@@ -91,7 +96,7 @@ def load_faces(directory, classifier):
 	# iterate through all files
 	for filename in listdir(directory):
 		# make sure that the file is an image
-		if not filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+		if not filename.lower().endswith(ALLOWED_EXTENSIONS):
 			continue
 
 		# get full path of image
@@ -113,7 +118,7 @@ def load_dataset(directory, classifier):
 	# iterate through all subdirectories in the dataset aka all the people in the dataset
 	for subdir in listdir(directory):
 		# create full path
-		subdir_path = directory + subdir + '/'
+		subdir_path = directory + subdir + "/"
 
 		# skip files (error check)
 		if not isdir(subdir_path):

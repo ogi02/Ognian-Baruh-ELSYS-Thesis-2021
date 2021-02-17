@@ -7,33 +7,35 @@ from requests import get
 from os.path import exists
 from requests.auth import HTTPDigestAuth
 
-path_name = './camera_images/'
+AUTH_USERNAME = "service"
+AUTH_PASSWORD = "Admin!234"
+IMAGES_PATH = "./camera_images/"
 
 def get_image_from_url(url, number):
 	# get image from url
-	resp = get(url, auth=HTTPDigestAuth('service', 'Admin!234'), stream=True)
+	resp = get(url, auth=HTTPDigestAuth(AUTH_USERNAME, AUTH_PASSWORD), stream=True)
 
 	# open image
 	image = Image.open(resp.raw)
 
 	# convert to RGB if needed
-	image = image.convert('RGB')
+	image = image.convert("RGB")
 
 	# save image
-	image = image.save('{}/image_{}.jpg'.format(path_name, number))
+	image = image.save("{}/image_{}.jpg".format(path_name, number))
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	# check if url is not given
 	if len(argv) < 2:
-		print('URL is required! Exiting..')
+		print("URL is required! Exiting..")
 		exit(0)
 
 	# get url from command line
 	url = argv[1]
 
 	# create directory for images if it doesn't exist
-	if not exists(path_name):
-		mkdir(path_name)
+	if not exists(IMAGES_PATH):
+		mkdir(IMAGES_PATH)
 
 	# create images
 	for i in range(10):

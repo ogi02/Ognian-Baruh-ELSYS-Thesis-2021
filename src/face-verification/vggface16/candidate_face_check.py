@@ -13,7 +13,6 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 		# label -> name of candidate ('Unknown' by default)
 		i = 0
 		passed = 0
-		label = 'Unknown'
 
 		# dictionary for guesses
 		guesses = {label: 0 for label in known_labels}
@@ -29,7 +28,6 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 
 			i += 1
 
-		label = 'Unknown'
 		max_passed = 0
 		# key -> label
 		# value -> times passed
@@ -42,6 +40,6 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 			faces.append(label)
 
 	if not faces:
-		faces.append('Unknown')
+		faces.append("Unknown")
 
 	return faces
