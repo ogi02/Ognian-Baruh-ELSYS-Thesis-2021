@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import os
-import sys
 import json
 import requests
 import subprocess
@@ -15,7 +14,8 @@ from keras_vggface.vggface import VGGFace
 
 from vggface16.recognize import recognize_faces
 
-MODEL_NAME = 'vgg16'
+# models constants
+MODEL_NAME = "vgg16"
 EMBEDDING_FILE = "./models/embeddings.npz"
 CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
 
@@ -23,12 +23,19 @@ CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
 #"topic":"finalyearproj/test1:da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009/things/twin/commands/modify","headers":{"
 #response-required":false,"correlation-id":"5aa6ab40-09ed-4291-951c-0f3b26bcf878"},"path":"/features/Detector:%2FEventsService%2F1/properties/status/detected","value":true}"
 
-tenant_id = "ta5c5ad439fe14b32af99092f74e594eb_hub"
-subscription = "finalyearproj"
-namespace = "test1"
-device_uid = "da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009"
+# path constants
+CAMERA_IMAGES_PATH = "./camera_images"
+IMAGE_FROM_CAMERA_URL = "http://172.22.172.33/snap.jpg?JpegCam=1"
+IMAGE_FROM_URL_SCRIPT = "../face-verification/image_from_url_to_file.py"
 
-topic = "e/" + tenant_id + "/" + subscription + ":" + namespace + ":" + device_uid
+# bosch iot suite constants
+TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"
+SUBSCRIPTION_NAME = "finalyearproj"
+NAMESPACE_ID = "test1"
+CAMERA_DEVICE_UID = "da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009"
+
+topic = "e/" + TENANT_ID + "/" + SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID
+
 
 def client_on_connect(self, userdata, flags, rc):
 	print("Connected")
@@ -37,23 +44,23 @@ def client_on_connect(self, userdata, flags, rc):
 
 def client_on_message(self, userdata, msg):
 	print("Received message")
+
 	payload = json.loads(msg.payload.decode("utf-8"))
-	print(payload["path"])
-	print(payload["value"])
 	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
 
-		if exists("./camera_images"):
-			rmtree("./camera_images")
+		if exists(CAMERA_IMAGES_PATH):
+			rmtree(CAMERA_IMAGES_PATH)
 
-		subprocess.call(["../face-verification/image_from_url_to_file.py", "http://172.22.172.33/snap.jpg?JpegCam=1"])
+		subprocess.call([IMAGE_FROM_URL_SCRIPT, IMAGE_FROM_CAMERA_URL])
 
 		for i in range(10):
-			output = subprocess.check_output([sys.executable, "../face-verification/recognize.py", "./camera_images/image_{}.jpg".format(i)])
-			names = output.decode("utf-8")
-			print(names)
+			# generate image name
+			image_name = CAMERA_IMAGES_PATH + "/image_{}.jpg".format(i)
 
-		client.disconnect()
-		sys.exit(0)
+			# recognize faces
+			names = recognize_faces(image_name, trainX, trainY, classifier, model)
+
+			print(names)
 
 
 if __name__ == "__main__":
