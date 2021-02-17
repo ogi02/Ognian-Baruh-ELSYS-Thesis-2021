@@ -5,10 +5,7 @@ from io import BytesIO
 from os import listdir
 from numpy import asarray
 from os.path import isdir
-from cv2 import CascadeClassifier
 from requests.auth import HTTPDigestAuth
-
-classifier = CascadeClassifier('haarcascade_frontalface_default.xml')
 
 # detect all faces in an image
 def get_pixels(filename):
@@ -28,7 +25,7 @@ def get_pixels(filename):
 	return pixels
 
 # extract a single face from a given image
-def extract_single_face(filename, required_size=(224, 224)):
+def extract_single_face(filename, classifier, required_size=(160, 160)):
 	# open the image and get the pixels
 	pixels = get_pixels(filename)
 
@@ -55,7 +52,7 @@ def extract_single_face(filename, required_size=(224, 224)):
 	return asarray(image)
 
 # extract a single face from a given image
-def extract_multiple_faces(filename, required_size=(224, 224)):
+def extract_multiple_faces(filename, classifier, required_size=(160, 160)):
 	# open the image and get the pixels
 	pixels = get_pixels(filename)
 
@@ -88,7 +85,7 @@ def extract_multiple_faces(filename, required_size=(224, 224)):
 	return faces
 
 # load the faces from a directory
-def load_faces(directory):
+def load_faces(directory, classifier):
 	faces = list()
 
 	# iterate through all files
@@ -101,7 +98,7 @@ def load_faces(directory):
 		image_path = directory + filename
 
 		# extract face
-		face = extract_single_face(image_path)
+		face = extract_single_face(image_path, classifier)
 
 		# append face to the list of faces if face iss detected
 		if face.any():
@@ -110,7 +107,7 @@ def load_faces(directory):
 	return faces
 
 # load the whole dataset
-def load_dataset(directory):
+def load_dataset(directory, classifier):
 	x, y = list(), list()
 
 	# iterate through all subdirectories in the dataset aka all the people in the dataset
@@ -123,7 +120,7 @@ def load_dataset(directory):
 			continue
 
 		# load all the faces for that person
-		faces = load_faces(subdir_path)
+		faces = load_faces(subdir_path, classifier)
 
 		# create labels for all the faces of that person
 		labels = [subdir for _ in range(len(faces))]

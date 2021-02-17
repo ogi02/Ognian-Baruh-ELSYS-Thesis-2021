@@ -16,9 +16,9 @@ src/Pipfile.lock
 
 # not uploading images
 # exam images are images for testing
-src/face-verification/exam/*
+src/face-verification/vggface16/exam/*
 # dataset images are images for training
-src/face-verification/dataset/*
+src/face-verification/vggface16/dataset/*
 
-src/vggface16/dataset/*
-src/vggface16/exam/*
+src/old_face/dataset/*
+src/old_face/exam/*

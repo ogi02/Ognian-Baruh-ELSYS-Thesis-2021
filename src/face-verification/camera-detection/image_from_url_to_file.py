@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from os import mkdir
 from sys import argv
 from sys import exit
@@ -8,7 +7,7 @@ from requests import get
 from os.path import exists
 from requests.auth import HTTPDigestAuth
 
-path_name = '../camera-detection/camera_images/'
+path_name = './camera_images/'
 
 def get_image_from_url(url, number):
 	# get image from url

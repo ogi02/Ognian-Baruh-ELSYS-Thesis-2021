@@ -1,12 +1,19 @@
+#!/usr/bin/env python3
 import os
 import sys
 import json
 import requests
 import subprocess
-from shutil import rmtree
-from os.path import exists
 
 import paho.mqtt.client as mqtt
+
+from numpy import load
+from shutil import rmtree
+from os.path import exists
+from cv2 import CascadeClassifier
+from keras_vggface.vggface import VGGFace
+
+from vggface16.recognize import recognize_faces
 
 #b"{
 #"topic":"finalyearproj/test1:da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009/things/twin/commands/modify","headers":{"
@@ -45,13 +52,39 @@ def client_on_message(self, userdata, msg):
 		sys.exit(0)
 
 
-client = mqtt.Client("test", None, None, mqtt.MQTTv311)
-client.on_connect = client_on_connect
-client.on_message = client_on_message
+if __name__ == "__main__":
 
-client.connect("172.22.150.239", 1883, 60)
+	# load known face embeddings 
+	data = load('./models/embeddings.npz')
+	trainX, trainY = data['arr_0'], data['arr_1']
 
-client.loop_forever()
+	# initialize cascade classifier
+	classifier = CascadeClassifier('./models/haarcascade_frontalface_default.xml')
+
+	# initialize vggface model
+	model = VGGFace(model='vgg16', include_top=False, input_shape=(160, 160, 3), pooling='avg')
+
+	# # initialize mqqt client
+	# client = mqtt.Client("test", None, None, mqtt.MQTTv311)
+	# client.on_connect = client_on_connect
+	# client.on_message = client_on_message
+
+	# # connect
+	# client.connect("172.22.150.239", 1883, 60)
+
+	# # loop forever
+	# client.loop_forever()
+
+	print("ready")
+	a = input()
+
+	filename = "./vggface16/exam/exam_ogi.jpg"
+
+	# perform face recognition
+	res = recognize_faces(filename, trainX, trainY, classifier, model)
+
+	print(res, end='')
+
 
 # functionalItemId = "da:item:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009/Media-0/1:MediaService"
 # operation = "getSnapshotUri"
