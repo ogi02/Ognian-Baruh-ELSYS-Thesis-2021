@@ -5,11 +5,11 @@ from sys import argv, exit
 from argparse import ArgumentParser
 
 # custom functions imports
-from vggface16.face_extract_utils import load_dataset
-from vggface16.face_extract_utils import extract_single_face
-from vggface16.face_extract_utils import extract_multiple_faces
-from vggface16.face_embedding_utils import get_face_embedding
-from vggface16.candidate_face_check import check_candidate_faces
+from face_verification.face_extract_utils import load_dataset
+from face_verification.face_extract_utils import extract_single_face
+from face_verification.face_extract_utils import extract_multiple_faces
+from face_verification.face_embedding_utils import get_face_embedding
+from face_verification.candidate_face_check import check_candidate_faces
 
 def recognize_faces(filename, trainX, trainY, classifier, model):
 
