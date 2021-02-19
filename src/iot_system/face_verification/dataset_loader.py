@@ -13,10 +13,14 @@ def get_name(argv):
 
 	# get opts from command line
 	try:
-		opts, args = getopt.getopt(argv,'f:l:', ["fname=", "lname="])
+		opts, args = getopt(argv,'f:l:h', ["fname=", "lname=", "help="])
 	# catch error
-	except getopt.GetoptError:
-		print('Wrong input!')
+	except GetoptError:
+		print("Wrong usage!")
+		print("Correct usages:")
+		print("$ python3 dataset_loader.py -f <FirstName> -l <LastName>")
+		print("or")
+		print("$ python3 dataset_loader.py --fname <FirstName> --lname <LastName>")
 		exit(1)
 
 	# iterate through opts and get first and last name
@@ -25,6 +29,21 @@ def get_name(argv):
 			fname = arg
 		elif opt in ('-l', '--lname'):
 			lname = arg
+		elif opt in ('-h', '--help'):
+			print("-h, --help    ->    shows this screen")
+			print("-f, --fname    ->    first name of the person")
+			print("-l, --lname    ->    last name of the person")
+			print("Note: There can't be two people with the same full name!")
+			exit(1)
+
+	# check if names are given
+	if not fname and not lname:
+		print("Wrong usage!")
+		print("Correct usages:")
+		print("$ python3 dataset_loader.py -f <FirstName> -l <LastName>")
+		print("or")
+		print("$ python3 dataset_loader.py --fname <FirstName> --lname <LastName>")
+		exit(1)
 
 	# get full name
 	name = fname + ' ' + lname
