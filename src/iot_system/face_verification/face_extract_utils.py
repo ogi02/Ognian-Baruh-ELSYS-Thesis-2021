@@ -10,7 +10,7 @@ from requests.auth import HTTPDigestAuth
 IMAGE_WIDTH = 160
 IMAGE_HEIGHT = 160
 REQUIRED_SIZE = [IMAGE_WIDTH, IMAGE_HEIGHT]
-ALLOWED_EXTENSIONS = [".png", ".jpg", ".jpeg"]
+ALLOWED_EXTENSIONS = ".png", ".jpg", ".jpeg"
 
 # detect all faces in an image
 def get_pixels(filename):

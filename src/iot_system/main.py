@@ -1,3 +1,3 @@
 import subprocess
 
-subprocess.call(["./camera-detection/test.py"])
+subprocess.call(["./camera_detection/test.py"])

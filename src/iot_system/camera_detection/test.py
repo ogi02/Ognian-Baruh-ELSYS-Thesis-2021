@@ -12,7 +12,7 @@ from os.path import exists
 from cv2 import CascadeClassifier
 from keras_vggface.vggface import VGGFace
 
-from vggface16.recognize import recognize_faces
+from face_verification.recognize import recognize_faces
 
 # models constants
 MODEL_NAME = "vgg16"
@@ -26,7 +26,7 @@ CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
 # path constants
 CAMERA_IMAGES_PATH = "./camera_images"
 IMAGE_FROM_CAMERA_URL = "http://172.22.172.33/snap.jpg?JpegCam=1"
-IMAGE_FROM_URL_SCRIPT = "../face-verification/image_from_url_to_file.py"
+IMAGE_FROM_URL_SCRIPT = "../camera_detection/image_from_url_to_file.py"
 
 # bosch iot suite constants
 TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"
@@ -89,7 +89,7 @@ if __name__ == "__main__":
 	print("ready")
 	a = input()
 
-	filename = "./vggface16/exam/exam_ogi.jpg"
+	filename = "./face_verification/exam/exam_ogi.jpg"
 
 	# perform face recognition
 	res = recognize_faces(filename, trainX, trainY, classifier, model)
