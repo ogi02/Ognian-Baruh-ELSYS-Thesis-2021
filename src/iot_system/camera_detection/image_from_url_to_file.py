@@ -1,10 +1,8 @@
-from os import mkdir
 from sys import argv
 from sys import exit
 from PIL import Image
 from time import sleep
 from requests import get
-from os.path import exists
 from requests.auth import HTTPDigestAuth
 
 AUTH_USERNAME = "service"
@@ -32,10 +30,6 @@ if __name__ == "__main__":
 
 	# get url from command line
 	url = argv[1]
-
-	# create directory for images if it doesn't exist
-	if not exists(IMAGES_PATH):
-		mkdir(IMAGES_PATH)
 
 	# create images
 	for i in range(10):
