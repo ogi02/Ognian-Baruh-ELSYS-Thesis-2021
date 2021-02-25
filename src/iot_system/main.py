@@ -34,7 +34,10 @@ def client_on_message(self, userdata, msg):
 
 	# if message is detected
 	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
-		take_images_and_recognize(trainX, trainY, classifier, model)
+		# get names from face verification model with images from camera
+		names = take_images_and_recognize(trainX, trainY, classifier, model)
+
+		print(names)
 
 
 if __name__ == "__main__":

@@ -32,6 +32,6 @@ if __name__ == "__main__":
 	url = argv[1]
 
 	# create images
-	for i in range(10):
+	for i in range(5):
 		sleep(0.1)
 		get_image_from_url(url, i)

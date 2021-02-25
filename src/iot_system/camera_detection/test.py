@@ -31,6 +31,7 @@ def take_images_and_recognize(trainX, trainY, classifier, model):
 	# get photos from camera and save them
 	subprocess.call([IMAGE_FROM_URL_SCRIPT, IMAGE_FROM_CAMERA_URL])
 
+	res = []
 	for i in range(5):
 		# generate image name
 		image_name = CAMERA_IMAGES_PATH + "/image_{}.jpg".format(i)
@@ -38,8 +39,12 @@ def take_images_and_recognize(trainX, trainY, classifier, model):
 		# recognize faces
 		names = recognize_faces(image_name, trainX, trainY, classifier, model)
 
-		# print result
-		print(names)
+		# append result
+		res.append(names)
+
+	# return result
+	return res
+
 
 
 # functionalItemId = "da:item:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009/Media-0/1:MediaService"
