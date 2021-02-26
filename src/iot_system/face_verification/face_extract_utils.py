@@ -38,7 +38,7 @@ def extract_single_face(filename, classifier, required_size=REQUIRED_SIZE):
 	face_box = classifier.detectMultiScale(pixels)
 
 	# check if faces are detected
-	if not face_box:
+	if not face_box[0]:
 		return False
 
 	# get beginning coordinates of face
@@ -65,7 +65,7 @@ def extract_multiple_faces(filename, classifier, required_size=REQUIRED_SIZE):
 	faces_boxes = classifier.detectMultiScale(pixels)
 
 	# check if faces are detected
-	if not faces_boxes:
+	if not faces_boxes[0]:
 		return False
 
 	faces = list()
