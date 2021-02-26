@@ -10,7 +10,7 @@ from camera_detection.test import take_images_and_recognize
 # bosch iot suite constants
 TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"
 SUBSCRIPTION_NAME = "finalyearproj"
-NAMESPACE_ID = "test1"
+NAMESPACE_ID = "iotSystem"
 CAMERA_DEVICE_UID = "da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009"
 
 # raspberry ip

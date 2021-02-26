@@ -16,8 +16,9 @@ EMBEDDING_FILE = "./models/embeddings.npz"
 CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
 
 # path constants
+CAMERA_IP = "172.22.173.47"
 CAMERA_IMAGES_PATH = "./camera_images"
-IMAGE_FROM_CAMERA_URL = "http://172.22.172.33/snap.jpg?JpegCam=1"
+IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
 IMAGE_FROM_URL_SCRIPT = "../camera_detection/image_from_url_to_file.py"
 
 def take_images_and_recognize(trainX, trainY, classifier, model):
