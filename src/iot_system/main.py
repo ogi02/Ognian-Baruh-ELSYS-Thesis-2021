@@ -1,6 +1,8 @@
 # library imports
 import paho.mqtt.client as mqtt
 
+import sys
+
 from json import loads
 from numpy import load
 from cv2 import CascadeClassifier
@@ -45,6 +47,8 @@ def client_on_message(self, userdata, msg):
 		names = take_images_and_recognize(trainX, trainY, classifier, model)
 
 		print(names)
+
+		sys.exit(0)
 
 
 if __name__ == "__main__":

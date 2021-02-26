@@ -11,7 +11,7 @@ from requests.auth import HTTPDigestAuth
 # auth constants
 AUTH_USERNAME = "service"
 AUTH_PASSWORD = "Admin!234"
-IMAGES_PATH = "./camera_images/"
+IMAGES_PATH = "./camera_detection/camera_images/"
 
 def get_image_from_url(url, number):
 	# get image from url
@@ -24,7 +24,7 @@ def get_image_from_url(url, number):
 	image = image.convert("RGB")
 
 	# save image
-	image = image.save("{}/image_{}.jpg".format(path_name, number))
+	image = image.save("{}/image_{}.jpg".format(IMAGES_PATH, number))
 
 if __name__ == "__main__":
 	# check if url is not given

@@ -17,7 +17,7 @@ CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
 
 # path constants
 CAMERA_IP = "172.22.173.47"
-CAMERA_IMAGES_PATH = "./camera_images"
+CAMERA_IMAGES_PATH = "./camera_detection/camera_images"
 IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
 IMAGE_FROM_URL_SCRIPT = "./camera_detection/image_from_url_to_file.py"
 
