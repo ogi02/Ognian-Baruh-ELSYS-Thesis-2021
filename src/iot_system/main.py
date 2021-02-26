@@ -1,6 +1,8 @@
 # library imports
 import paho.mqtt.client as mqtt
 
+from json import loads
+from numpy import load
 from cv2 import CascadeClassifier
 from keras_vggface.vggface import VGGFace
 
@@ -12,6 +14,11 @@ TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"
 SUBSCRIPTION_NAME = "finalyearproj"
 NAMESPACE_ID = "iotSystem"
 CAMERA_DEVICE_UID = "da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009"
+
+# models constants
+MODEL_NAME = "vgg16"
+EMBEDDING_FILE = "./models/embeddings.npz"
+CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
 
 # raspberry ip
 RASPBERRY_IP = "172.22.150.239"
@@ -30,7 +37,7 @@ def client_on_message(self, userdata, msg):
 	print("Received message")
 
 	# get payload from message
-	payload = json.loads(msg.payload.decode("utf-8"))
+	payload = loads(msg.payload.decode("utf-8"))
 
 	# if message is detected
 	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:

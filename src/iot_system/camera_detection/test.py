@@ -1,7 +1,7 @@
 # library imports
 import paho.mqtt.client as mqtt
 
-from os import exists
+from os import mkdir
 from numpy import load
 from shutil import rmtree
 from os.path import exists
@@ -19,7 +19,7 @@ CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
 CAMERA_IP = "172.22.173.47"
 CAMERA_IMAGES_PATH = "./camera_images"
 IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
-IMAGE_FROM_URL_SCRIPT = "../camera_detection/image_from_url_to_file.py"
+IMAGE_FROM_URL_SCRIPT = "./camera_detection/image_from_url_to_file.py"
 
 def take_images_and_recognize(trainX, trainY, classifier, model):
 	# remove folder for camera images if it exists
@@ -30,7 +30,7 @@ def take_images_and_recognize(trainX, trainY, classifier, model):
 	mkdir(CAMERA_IMAGES_PATH)
 
 	# get photos from camera and save them
-	subprocess.call([IMAGE_FROM_URL_SCRIPT, IMAGE_FROM_CAMERA_URL])
+	call([IMAGE_FROM_URL_SCRIPT, IMAGE_FROM_CAMERA_URL])
 
 	res = []
 	for i in range(5):
