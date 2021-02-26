@@ -2,6 +2,7 @@
 import paho.mqtt.client as mqtt
 
 import sys
+import time
 
 from json import loads
 from numpy import load
@@ -53,8 +54,11 @@ def client_on_message(self, userdata, msg):
 
 		print(names)
 
-		if names.some(name => name != UNKNOWN and name != NO_FACES_DETECTED):
-			unlock_door()
+		for name in names:
+			if name != UNKNOWN and name != NO_FACES_DETECTED:
+				unlock_door()
+				time.sleep(3)
+				lock_door()
 
 		sys.exit(0)
 
