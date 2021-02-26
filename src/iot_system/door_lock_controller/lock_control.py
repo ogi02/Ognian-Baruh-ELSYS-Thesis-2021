@@ -23,7 +23,7 @@ def lock_door():
 	headers = {"Accept": "application/json", "Content-Type": "application/json"}
 
 	# generate url
-	url = "http://" + host + ":" + port + "/m2m/fim/items/" + deviceuid + "/operations/" + operation
+	url = "http://" + HOST + ":" + PORT + "/m2m/fim/items/" + DEVICE_UID + "/operations/" + LOCK_OPERATION
 
 	# generate body
 	data = json.dumps({"arguments": [mode]})
@@ -41,7 +41,7 @@ def unlock_door():
 	headers = {"Accept": "application/json", "Content-Type": "application/json"}
 
 	# generate url
-	url = "http://" + host + ":" + port + "/m2m/fim/items/" + deviceuid + "/operations/" + operation
+	url = "http://" + HOST + ":" + PORT + "/m2m/fim/items/" + DEVICE_UID + "/operations/" + LOCK_OPERATION
 
 	# generate body
 	data = json.dumps({"arguments": [mode]})
