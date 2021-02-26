@@ -15,7 +15,7 @@ OPERATION_UNLOCK = 0
 USERNAME = "admin"
 PASSWORD = "admin"
 
-def lock():
+def lock_door():
 	# set operation to lock
 	mode = OPERATION_LOCK
 
@@ -33,7 +33,7 @@ def lock():
 
 	print(resp.text)
 
-def unlock():
+def unlock_door():
 	# set operation to lock
 	mode = OPERATION_UNLOCK
 

@@ -10,6 +10,7 @@ from keras_vggface.vggface import VGGFace
 
 # project imports
 from camera_detection.test import take_images_and_recognize
+from door_lock_controller.lock_control import lock_door, unlock_door
 
 # bosch iot suite constants
 TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"
@@ -24,6 +25,10 @@ CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
 
 # raspberry ip
 RASPBERRY_IP = "172.22.150.239"
+
+# camera related values
+UNKNOWN = "UNKNOWN"
+NO_FACES_DETECTED = "No faces detected"
 
 # topic, where camera sends its messages
 camera_topic = "e/" + TENANT_ID + "/" + SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID
@@ -47,6 +52,9 @@ def client_on_message(self, userdata, msg):
 		names = take_images_and_recognize(trainX, trainY, classifier, model)
 
 		print(names)
+
+		if names.some(name => name != UNKNOWN and name != NO_FACES_DETECTED):
+			unlock_door()
 
 		sys.exit(0)
 
