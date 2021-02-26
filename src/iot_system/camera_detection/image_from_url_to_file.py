@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# library imports
 from sys import argv
 from sys import exit
 from PIL import Image
@@ -5,6 +8,7 @@ from time import sleep
 from requests import get
 from requests.auth import HTTPDigestAuth
 
+# auth constants
 AUTH_USERNAME = "service"
 AUTH_PASSWORD = "Admin!234"
 IMAGES_PATH = "./camera_images/"
