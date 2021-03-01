@@ -37,22 +37,26 @@ LOCK = "lock"
 UNLOCK = "unlock"
 
 # device commands topics
-LOCK_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" LOCK_DEVICE_UID
-CAMERA_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" CAMERA_DEVICE_UID
+LOCK_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + LOCK_DEVICE_UID
+CAMERA_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID
 
 camera_topic = "e/" + TENANT_ID + "/" + SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID
 
 def client_on_connect(self, userdata, flags, rc):
 	print("Connected")
 
+
+	client.subscribe("command//" + LOCK_COMMANDS_TOPIC + "/req//" + LOCK)
+	client.subscribe("command//" + LOCK_COMMANDS_TOPIC + "/req//" + UNLOCK)
 	# subscribe to camera topic
-	client.subscribe(camera_topic)
+	# client.subscribe(camera_topic)
 
 
 def client_on_message(self, userdata, msg):
 
 	# get message topic
-	topic = message.topic
+	topic = msg.topic
+	print(topic)
 
 	# lock door command
 	if topic == "command//" + LOCK_COMMANDS_TOPIC + "/req//" + LOCK:
