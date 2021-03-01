@@ -17,6 +17,7 @@ from door_lock_controller.lock_control import lock_door, unlock_door
 TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"
 SUBSCRIPTION_NAME = "finalyearproj"
 NAMESPACE_ID = "iotSystem"
+LOCK_DEVICE_UID = "da:device:ZWave:FD72A41B%2F5"
 CAMERA_DEVICE_UID = "da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009"
 
 # models constants
@@ -27,11 +28,18 @@ CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
 # raspberry ip
 RASPBERRY_IP = "172.22.150.239"
 
-# camera related values
+# camera constants
 UNKNOWN = "UNKNOWN"
 NO_FACES_DETECTED = "No faces detected"
 
-# topic, where camera sends its messages
+# lock constants
+LOCK = "lock"
+UNLOCK = "unlock"
+
+# device commands topics
+LOCK_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" LOCK_DEVICE_UID
+CAMERA_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" CAMERA_DEVICE_UID
+
 camera_topic = "e/" + TENANT_ID + "/" + SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID
 
 def client_on_connect(self, userdata, flags, rc):
@@ -42,7 +50,19 @@ def client_on_connect(self, userdata, flags, rc):
 
 
 def client_on_message(self, userdata, msg):
-	print("Received message")
+
+	# get message topic
+	topic = message.topic
+
+	# lock door command
+	if topic == "command//" + LOCK_COMMANDS_TOPIC + "/req//" + LOCK:
+		lock_door()
+		return
+
+	# unlock door command
+	if topic == "command//" + LOCK_COMMANDS_TOPIC + "/req//" + UNLOCK:
+		unlock_door()
+		return
 
 	# get payload from message
 	payload = loads(msg.payload.decode("utf-8"))
