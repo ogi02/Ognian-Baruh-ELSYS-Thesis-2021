@@ -29,12 +29,12 @@ class TokenService {
     }
   }
 
-  String decodeToken() {
-    return 
-  }
+  // String decodeToken() {
+  //   return
+  // }
 
-  Future getToken() async {
+  Future<String> getToken() async {
     String token = await _storage.get(_tokenKey);
-    print(token);
+    return token;
   }
 }
