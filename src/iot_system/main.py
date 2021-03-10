@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
 	# load known face embeddings 
 	data = load(EMBEDDING_FILE)
-	trainX, trainY = data["arr_0"], data["arr_1"]
+	trainX, trainY = data["trainX"], data["trainY"]
 
 	# initialize cascade classifier
 	classifier = CascadeClassifier(CASCADE_CLASSIFIER_FILE)

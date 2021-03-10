@@ -1,9 +1,6 @@
 # library imports
 import time
 
-from sys import argv, exit
-from argparse import ArgumentParser
-
 # custom functions imports
 from face_verification.face_extract_utils import load_dataset
 from face_verification.face_extract_utils import extract_single_face

@@ -59,7 +59,7 @@ def create_dir(name):
 	# return new path
 	return full_path
 
-def take_screenshots(full_path):
+def create_images(full_path):
 	# init camera
 	cam = cv2.VideoCapture(0)
 	window_message = "Press space to take a photo or escape to finish!"
@@ -114,4 +114,4 @@ if __name__ == '__main__':
 	full_path = create_dir(name)
 
 	# turn on camera and take screenshots
-	take_screenshots(full_path)
+	create_images(full_path)

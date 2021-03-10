@@ -1,5 +1,6 @@
 # library imports
 import requests
+from sys import exit
 from PIL import Image
 from io import BytesIO
 from os import listdir
@@ -38,7 +39,7 @@ def extract_single_face(filename, classifier, required_size=REQUIRED_SIZE):
 	face_box = classifier.detectMultiScale(pixels)
 
 	# check if faces are detected
-	if not face_box:
+	if len(face_box) == 0:
 		return False
 
 	# get beginning coordinates of face
@@ -105,9 +106,13 @@ def load_faces(directory, classifier):
 		# extract face
 		face = extract_single_face(image_path, classifier)
 
-		# append face to the list of faces if face iss detected
-		if face.any():
-			faces.append(face)
+		# check is face is detected
+		if face is False:
+			print("The face detection model didn't detect a face in {} in {}".format(filename, directory))
+			exit(1)
+
+		# append face to the list of faces if face is detected
+		faces.append(face)
 
 	return faces
 

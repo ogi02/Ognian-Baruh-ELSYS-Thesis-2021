@@ -37,4 +37,4 @@ classifier = CascadeClassifier(CASCADE_CLASSIFIER_FILE)
 trainX, trainY = load_dataset(DATASET_FOLDER, classifier)
 
 # save embeddings
-save_embeddings(trainX, trainY)
+save_embeddings(trainX=trainX, trainY=trainY)
