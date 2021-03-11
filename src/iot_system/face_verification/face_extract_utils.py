@@ -7,6 +7,7 @@ from os import listdir
 from numpy import asarray
 from os.path import isdir
 from requests.auth import HTTPDigestAuth
+from mtcnn.mtcnn import MTCNN
 
 IMAGE_WIDTH = 160
 IMAGE_HEIGHT = 160
@@ -31,19 +32,22 @@ def get_pixels(filename):
 	return pixels
 
 # extract a single face from a given image
-def extract_single_face(filename, classifier, required_size=REQUIRED_SIZE):
+def extract_single_face(filename, detector, required_size=REQUIRED_SIZE):
 	# open the image and get the pixels
 	pixels = get_pixels(filename)
 
 	# detect faces in the image
-	face_box = classifier.detectMultiScale(pixels)
+	face_box = detector.detect_faces(pixels)
 
 	# check if faces are detected
 	if len(face_box) == 0:
 		return False
 
 	# get beginning coordinates of face
-	x1, y1, width, height = face_box[0]
+	x1, y1, width, height = face_box[0]['box']
+
+	# error handling
+	x1, y1 = abs(x1), abs(y1)
 
 	# get end coordinates of face
 	x2, y2 = x1 + width, y1 + height
@@ -58,12 +62,12 @@ def extract_single_face(filename, classifier, required_size=REQUIRED_SIZE):
 	return asarray(image)
 
 # extract a single face from a given image
-def extract_multiple_faces(filename, classifier, required_size=REQUIRED_SIZE):
+def extract_multiple_faces(filename, detector, required_size=REQUIRED_SIZE):
 	# open the image and get the pixels
 	pixels = get_pixels(filename)
 
 	# detect faces in the image
-	faces_boxes = classifier.detectMultiScale(pixels)
+	faces_boxes = detector.detect_faces(pixels)
 
 	# check if faces are detected
 	if len(faces_boxes) == 0:
@@ -73,7 +77,7 @@ def extract_multiple_faces(filename, classifier, required_size=REQUIRED_SIZE):
 	# extract every face from the image
 	for face_box in faces_boxes:
 		# get beginning coordinates of face
-		x1, y1, width, height = face_box
+		x1, y1, width, height = face_box['box']
 
 		# get end coordinates of face
 		x2, y2 = x1 + width, y1 + height
@@ -91,7 +95,7 @@ def extract_multiple_faces(filename, classifier, required_size=REQUIRED_SIZE):
 	return faces
 
 # load the faces from a directory
-def load_faces(directory, classifier):
+def load_faces(directory, detector):
 	faces = list()
 
 	# iterate through all files
@@ -104,7 +108,7 @@ def load_faces(directory, classifier):
 		image_path = directory + filename
 
 		# extract face
-		face = extract_single_face(image_path, classifier)
+		face = extract_single_face(image_path, detector)
 
 		# check is face is detected
 		if face is False:
@@ -117,7 +121,7 @@ def load_faces(directory, classifier):
 	return faces
 
 # load the whole dataset
-def load_dataset(directory, classifier):
+def load_dataset(directory, detector):
 	x, y = list(), list()
 
 	# iterate through all subdirectories in the dataset aka all the people in the dataset
@@ -130,7 +134,7 @@ def load_dataset(directory, classifier):
 			continue
 
 		# load all the faces for that person
-		faces = load_faces(subdir_path, classifier)
+		faces = load_faces(subdir_path, detector)
 
 		# create labels for all the faces of that person
 		labels = [subdir for _ in range(len(faces))]

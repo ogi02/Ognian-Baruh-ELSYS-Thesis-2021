@@ -1,5 +1,5 @@
 # library imports
-from cv2 import CascadeClassifier
+from mtcnn.mtcnn import MTCNN
 from keras_vggface.vggface import VGGFace
 from numpy import asarray, savez_compressed
 
@@ -11,7 +11,6 @@ from face_embedding_utils import get_face_embedding
 MODEL_NAME = "vgg16"
 DATASET_FOLDER = "./dataset/"
 EMBEDDING_FILE = "../models/embeddings.npz"
-CASCADE_CLASSIFIER_FILE = "../models/haarcascade_frontalface_default.xml"
 
 def save_embeddings(trainX, trainY):
 	newTrainX = list()
@@ -28,13 +27,13 @@ def save_embeddings(trainX, trainY):
 	newTrainX = asarray(newTrainX)
 
 	# save embeddings and labels to one npz compressed file
-	savez_compressed(EMBEDDING_FILE, newTrainX, trainY)
+	savez_compressed(EMBEDDING_FILE, trainX=newTrainX, trainY=trainY)
 
-# initialize cascade classifier
-classifier = CascadeClassifier(CASCADE_CLASSIFIER_FILE)
+# initialize the mtcnn detector
+detector = MTCNN()
 
 # load training dataset
-trainX, trainY = load_dataset(DATASET_FOLDER, classifier)
+trainX, trainY = load_dataset(DATASET_FOLDER, detector)
 
 # save embeddings
-save_embeddings(trainX=trainX, trainY=trainY)
+save_embeddings(trainX, trainY)

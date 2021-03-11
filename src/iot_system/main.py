@@ -6,12 +6,15 @@ import time
 
 from json import loads
 from numpy import load
+from mtcnn.mtcnn import MTCNN
 from cv2 import CascadeClassifier
 from keras_vggface.vggface import VGGFace
 
 # project imports
 from camera_detection.test import take_images_and_recognize
 from door_lock_controller.lock_control import lock_door, unlock_door
+
+from face_verification.recognize import recognize_faces
 
 # bosch iot suite constants
 TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"
@@ -96,16 +99,54 @@ if __name__ == "__main__":
 	# initialize cascade classifier
 	classifier = CascadeClassifier(CASCADE_CLASSIFIER_FILE)
 
+	detector = MTCNN()
+
 	# initialize vggface model
 	model = VGGFace(model=MODEL_NAME, include_top=False, input_shape=(160, 160, 3), pooling="avg")
 
+	# filename = "./test/camera_images/image_3.jpg"
+	# filename2 = "./face_verification/exam/exam_gabi_i_kompaniq.jpg"
+
+	filenames = [
+		"./face_verification/exam/exam_balls.jpg",
+		"./face_verification/exam/exam_dog.jpg",
+		"./face_verification/exam/exam_gabi_i_cveti.jpg",
+		"./face_verification/exam/exam_gabi_i_kompaniq.jpg",
+		"./face_verification/exam/exam_gabi.jpg",
+		"./face_verification/exam/exam_gabi1.jpg",
+		"./face_verification/exam/exam_gabi2.jpg",
+		"./face_verification/exam/exam_ogi_hacktues.jpg",
+		"./face_verification/exam/exam_ogi_i_gabi.jpg",
+		"./face_verification/exam/exam_ogi_i_gabi2.jpg",
+		"./face_verification/exam/exam_ogi_i_plamen.jpg",
+		"./face_verification/exam/exam_ogi.jpg",
+		"./face_verification/exam/exam_plamen_i_tedi.jpg",
+		"./face_verification/exam/exam_plamen.jpg",
+		"./face_verification/exam/exam_random1.jpg",
+		"./face_verification/exam/exam_shefa.jpg",
+		"./face_verification/exam/exam_tedi.jpg",
+		"./test/camera_images/image_0.jpg",
+		"./test/camera_images/image_1.jpg",
+		"./test/camera_images/image_2.jpg",
+		"./test/camera_images/image_3.jpg",
+		"./test/camera_images/image_4.jpg"
+	]
+
+	for filename in filenames:
+
+		print(filename)
+		# recognize faces
+		names = recognize_faces(filename, trainX, trainY, detector, model)
+
+		print(names)
+
 	# initialize mqqt client
-	client = mqtt.Client("test", None, None, mqtt.MQTTv311)
-	client.on_connect = client_on_connect
-	client.on_message = client_on_message
+	# client = mqtt.Client("test", None, None, mqtt.MQTTv311)
+	# client.on_connect = client_on_connect
+	# client.on_message = client_on_message
 
-	# connect
-	client.connect(RASPBERRY_IP, 1883, 60)
+	# # connect
+	# client.connect(RASPBERRY_IP, 1883, 60)
 
-	# loop forever
-	client.loop_forever()
+	# # loop forever
+	# client.loop_forever()

@@ -71,7 +71,7 @@ def create_images(full_path):
 	# init image count
 	image_count = 0
 
-	while True:
+	while image_count < 10:
 		# read camera
 		# ret -> True or False, depends on whether the read is successful
 		# frame -> the frame that is read
@@ -101,10 +101,12 @@ def create_images(full_path):
 			print("Image " + str(image_count) + " written!")
 
 		# escape
-		elif key % 256 == 27:
-			print("Finishing")
-			cv2.destroyAllWindows()
-			break
+		# elif key % 256 == 27:
+			# print("Finishing")
+			# break
+
+	# destroy camera window
+	cv2.destroyAllWindows()
 
 if __name__ == '__main__':
 	# call get name without the first keyword argument (loader.py)

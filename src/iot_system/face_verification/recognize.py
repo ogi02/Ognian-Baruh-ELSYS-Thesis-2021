@@ -15,11 +15,11 @@ def recognize_faces(filename, trainX, trainY, classifier, model):
 	# extract faces of all candidates
 	candidate_faces = extract_multiple_faces(filename, classifier)
 
-	print("1", end=' ')
-	print("--- %s seconds ---" % (time.time() - start_time))
+	# print("1", end=' ')
+	# print("--- %s seconds ---" % (time.time() - start_time))
 
 	if not candidate_faces:
-		return ['No faces detected']
+		return 'No faces detected'
 
 	# get face embeddings of all candidates
 	candidate_embeddings = list()
@@ -30,13 +30,13 @@ def recognize_faces(filename, trainX, trainY, classifier, model):
 		# insert face embedding
 		candidate_embeddings.append(candidate_face_embedding)
 
-	print("2", end=' ')
-	print("--- %s seconds ---" % (time.time() - start_time))
+	# print("2", end=' ')
+	# print("--- %s seconds ---" % (time.time() - start_time))
 
 	# check faces for all candidates
 	names = check_candidate_faces(trainX, trainY, candidate_embeddings)
 
-	print("3", end=' ')
-	print("--- %s seconds ---" % (time.time() - start_time))
+	# print("3", end=' ')
+	# print("--- %s seconds ---" % (time.time() - start_time))
 
 	return names

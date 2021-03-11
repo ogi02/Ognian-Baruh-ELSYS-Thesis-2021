@@ -1,7 +1,7 @@
 from scipy.spatial.distance import cosine
 
 # determine if a candidate face is a match for a known face
-def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, thresh=0.5):
+def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, thresh=0.3):
 
 	# list for storing guessed faces
 	faces = list()
@@ -10,7 +10,6 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 		# reset values
 		# i -> counts all known embeddings
 		# passed -> counts all passed embeddings
-		# label -> name of candidate ('Unknown' by default)
 		i = 0
 		passed = 0
 
@@ -28,6 +27,7 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 
 			i += 1
 
+		print(guesses)
 		max_passed = 0
 		# key -> label
 		# value -> times passed
@@ -36,10 +36,10 @@ def check_candidate_faces(known_embeddings, known_labels, candidate_embeddings, 
 				label = key
 				max_passed = value
 
-		if max_passed >= 20 and label not in faces:
+		if max_passed >= 5:
 			faces.append(label)
 
 	if not faces:
-		faces.append("Unknown")
-
-	return faces
+		return "Unknown"
+	else:
+		return faces
