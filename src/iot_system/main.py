@@ -52,7 +52,7 @@ def client_on_connect(self, userdata, flags, rc):
 	client.subscribe("command//" + LOCK_COMMANDS_TOPIC + "/req//" + LOCK)
 	client.subscribe("command//" + LOCK_COMMANDS_TOPIC + "/req//" + UNLOCK)
 	# subscribe to camera topic
-	# client.subscribe(camera_topic)
+	client.subscribe(camera_topic)
 
 
 def client_on_message(self, userdata, msg):
@@ -77,7 +77,7 @@ def client_on_message(self, userdata, msg):
 	# if message is detected
 	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
 		# get names from face verification model with images from camera
-		names = take_images_and_recognize(trainX, trainY, classifier, model)
+		names = take_images_and_recognize(trainData, detector, model)
 
 		print(names)
 
@@ -91,7 +91,7 @@ def client_on_message(self, userdata, msg):
 
 if __name__ == "__main__":
 
-	# load known face embeddings 
+	# load known face embeddings
 	data = load(EMBEDDING_FILE, allow_pickle=True)
 	trainData = data["trainData"].item()
 
@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
 	# 	print(names)
 
-	initialize mqqt client
+	# initialize mqqt client
 	client = mqtt.Client("test", None, None, mqtt.MQTTv311)
 	client.on_connect = client_on_connect
 	client.on_message = client_on_message
