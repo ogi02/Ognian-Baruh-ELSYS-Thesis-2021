@@ -21,7 +21,7 @@ CAMERA_IMAGES_PATH = "./camera_detection/camera_images"
 IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
 IMAGE_FROM_URL_SCRIPT = "./camera_detection/image_from_url_to_file.py"
 
-def take_images_and_recognize(trainX, trainY, classifier, model):
+def take_images_and_recognize(trainData, classifier, model):
 	# remove folder for camera images if it exists
 	if exists(CAMERA_IMAGES_PATH):
 		rmtree(CAMERA_IMAGES_PATH)
@@ -38,7 +38,7 @@ def take_images_and_recognize(trainX, trainY, classifier, model):
 		image_name = CAMERA_IMAGES_PATH + "/image_{}.jpg".format(i)
 
 		# recognize faces
-		names = recognize_faces(image_name, trainX, trainY, classifier, model)
+		names = recognize_faces(image_name, trainData, classifier, model)
 
 		# append result
 		res.append(names)
