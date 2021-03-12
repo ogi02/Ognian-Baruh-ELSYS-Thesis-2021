@@ -32,7 +32,7 @@ CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
 RASPBERRY_IP = "172.22.150.239"
 
 # camera constants
-UNKNOWN = "UNKNOWN"
+UNKNOWN = "Unknown"
 NO_FACES_DETECTED = "No faces detected"
 
 # lock constants
@@ -81,11 +81,10 @@ def client_on_message(self, userdata, msg):
 
 		print(names)
 
-		for name in names:
-			if name != UNKNOWN and name != NO_FACES_DETECTED:
-				unlock_door()
-				time.sleep(3)
-				lock_door()
+		if names != UNKNOWN and names != NO_FACES_DETECTED:
+			unlock_door()
+			time.sleep(3)
+			lock_door()
 
 		sys.exit(0)
 
@@ -93,12 +92,10 @@ def client_on_message(self, userdata, msg):
 if __name__ == "__main__":
 
 	# load known face embeddings 
-	data = load(EMBEDDING_FILE)
-	trainX, trainY = data["trainX"], data["trainY"]
+	data = load(EMBEDDING_FILE, allow_pickle=True)
+	trainData = data["trainData"].item()
 
-	# initialize cascade classifier
-	classifier = CascadeClassifier(CASCADE_CLASSIFIER_FILE)
-
+	# initialize mtcnn detector
 	detector = MTCNN()
 
 	# initialize vggface model
@@ -107,46 +104,41 @@ if __name__ == "__main__":
 	# filename = "./test/camera_images/image_3.jpg"
 	# filename2 = "./face_verification/exam/exam_gabi_i_kompaniq.jpg"
 
-	filenames = [
-		"./face_verification/exam/exam_balls.jpg",
-		"./face_verification/exam/exam_dog.jpg",
-		"./face_verification/exam/exam_gabi_i_cveti.jpg",
-		"./face_verification/exam/exam_gabi_i_kompaniq.jpg",
-		"./face_verification/exam/exam_gabi.jpg",
-		"./face_verification/exam/exam_gabi1.jpg",
-		"./face_verification/exam/exam_gabi2.jpg",
-		"./face_verification/exam/exam_ogi_hacktues.jpg",
-		"./face_verification/exam/exam_ogi_i_gabi.jpg",
-		"./face_verification/exam/exam_ogi_i_gabi2.jpg",
-		"./face_verification/exam/exam_ogi_i_plamen.jpg",
-		"./face_verification/exam/exam_ogi.jpg",
-		"./face_verification/exam/exam_plamen_i_tedi.jpg",
-		"./face_verification/exam/exam_plamen.jpg",
-		"./face_verification/exam/exam_random1.jpg",
-		"./face_verification/exam/exam_shefa.jpg",
-		"./face_verification/exam/exam_tedi.jpg",
-		"./test/camera_images/image_0.jpg",
-		"./test/camera_images/image_1.jpg",
-		"./test/camera_images/image_2.jpg",
-		"./test/camera_images/image_3.jpg",
-		"./test/camera_images/image_4.jpg"
-	]
+	# filenames = [
+	# 	"./face_verification/exam/exam_balls.jpg",
+	# 	"./face_verification/exam/exam_dog.jpg",
+	# 	"./face_verification/exam/exam_gabi_i_cveti.jpg",
+	# 	"./face_verification/exam/exam_gabi_i_kompaniq.jpg",
+	# 	"./face_verification/exam/exam_gabi.jpg",
+	# 	"./face_verification/exam/exam_gabi1.jpg",
+	# 	"./face_verification/exam/exam_gabi2.jpg",
+	# 	"./face_verification/exam/exam_ogi_hacktues.jpg",
+	# 	"./face_verification/exam/exam_ogi_i_gabi.jpg",
+	# 	"./face_verification/exam/exam_ogi_i_gabi2.jpg",
+	# 	"./face_verification/exam/exam_ogi_i_plamen.jpg",
+	# 	"./face_verification/exam/exam_ogi.jpg",
+	# 	"./face_verification/exam/exam_plamen_i_tedi.jpg",
+	# 	"./face_verification/exam/exam_plamen.jpg",
+	# 	"./face_verification/exam/exam_random1.jpg",
+	# 	"./face_verification/exam/exam_shefa.jpg",
+	# 	"./face_verification/exam/exam_tedi.jpg"
+	# ]
 
-	for filename in filenames:
+	# for filename in filenames:
 
-		print(filename)
-		# recognize faces
-		names = recognize_faces(filename, trainX, trainY, detector, model)
+	# 	print(filename)
+	# 	# recognize faces
+	# 	names = recognize_faces(filename, trainData, detector, model)
 
-		print(names)
+	# 	print(names)
 
-	# initialize mqqt client
-	# client = mqtt.Client("test", None, None, mqtt.MQTTv311)
-	# client.on_connect = client_on_connect
-	# client.on_message = client_on_message
+	initialize mqqt client
+	client = mqtt.Client("test", None, None, mqtt.MQTTv311)
+	client.on_connect = client_on_connect
+	client.on_message = client_on_message
 
-	# # connect
-	# client.connect(RASPBERRY_IP, 1883, 60)
+	# connect
+	client.connect(RASPBERRY_IP, 1883, 60)
 
-	# # loop forever
-	# client.loop_forever()
+	# loop forever
+	client.loop_forever()

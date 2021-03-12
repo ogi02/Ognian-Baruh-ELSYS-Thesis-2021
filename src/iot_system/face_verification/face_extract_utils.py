@@ -6,7 +6,6 @@ from io import BytesIO
 from os import listdir
 from numpy import asarray
 from os.path import isdir
-from requests.auth import HTTPDigestAuth
 from mtcnn.mtcnn import MTCNN
 
 IMAGE_WIDTH = 160
@@ -31,6 +30,25 @@ def get_pixels(filename):
 
 	return pixels
 
+# crop face from image
+def crop_face(face_box, pixels):
+	# get beginning coordinates, width and height of face
+	x1, y1, width, height = face_box
+
+	# error handling
+	x1, y1 = abs(x1), abs(y1)
+
+	# get end coordinates of face
+	x2, y2 = x1 + width, y1 + height
+
+	# crop face from image
+	face = pixels[y1:y2, x1:x2]
+
+	# create face image
+	face_image = Image.fromarray(face)
+
+	return face_image
+
 # extract a single face from a given image
 def extract_single_face(filename, detector, required_size=REQUIRED_SIZE):
 	# open the image and get the pixels
@@ -43,23 +61,13 @@ def extract_single_face(filename, detector, required_size=REQUIRED_SIZE):
 	if len(face_box) == 0:
 		return False
 
-	# get beginning coordinates of face
-	x1, y1, width, height = face_box[0]['box']
+	# get cropped image of face
+	face_image = crop_face(face_box[0]['box'], pixels)
 
-	# error handling
-	x1, y1 = abs(x1), abs(y1)
+	# resize the image to required size
+	face_image = face_image.resize(required_size)
 
-	# get end coordinates of face
-	x2, y2 = x1 + width, y1 + height
-
-	# crop face from image
-	face = pixels[y1:y2, x1:x2]
-
-	# resize the image
-	image = Image.fromarray(face)
-	image = image.resize(required_size)
-
-	return asarray(image)
+	return asarray(face_image)
 
 # extract a single face from a given image
 def extract_multiple_faces(filename, detector, required_size=REQUIRED_SIZE):
@@ -73,30 +81,23 @@ def extract_multiple_faces(filename, detector, required_size=REQUIRED_SIZE):
 	if len(faces_boxes) == 0:
 		return False
 
-	faces = list()
+	faces = []
 	# extract every face from the image
 	for face_box in faces_boxes:
-		# get beginning coordinates of face
-		x1, y1, width, height = face_box['box']
+		# get cropped image of face
+		face_image = crop_face(face_box['box'], pixels)
 
-		# get end coordinates of face
-		x2, y2 = x1 + width, y1 + height
+		# resize the image to required size
+		face_image = face_image.resize(required_size)
 
-		# crop face from image
-		face_pixels = pixels[y1:y2, x1:x2]
-
-		# resize the image
-		image = Image.fromarray(face_pixels)
-		image = image.resize(required_size)
-
-		# return face array
-		faces.append(asarray(image))
+		# append image to face array
+		faces.append(asarray(face_image))
 
 	return faces
 
 # load the faces from a directory
 def load_faces(directory, detector):
-	faces = list()
+	faces = []
 
 	# iterate through all files
 	for filename in listdir(directory):
@@ -122,7 +123,7 @@ def load_faces(directory, detector):
 
 # load the whole dataset
 def load_dataset(directory, detector):
-	x, y = list(), list()
+	dictionary = {}
 
 	# iterate through all subdirectories in the dataset aka all the people in the dataset
 	for subdir in listdir(directory):
@@ -136,11 +137,7 @@ def load_dataset(directory, detector):
 		# load all the faces for that person
 		faces = load_faces(subdir_path, detector)
 
-		# create labels for all the faces of that person
-		labels = [subdir for _ in range(len(faces))]
+		# add faces with label to dictionary
+		dictionary[subdir] = faces
 
-		# store faces and labels
-		x.extend(faces)
-		y.extend(labels)
-
-	return asarray(x), asarray(y)
+	return dictionary
