@@ -42,13 +42,13 @@ def check_candidate_faces(trainData, candidate_embeddings, threshold=0.3):
 
 	names = []
 	# iterate through the scores for every candidate
-	for score in scores:
+	for score_dict in scores:
 		# iterate through the every known person
-		for key, value in score.items():
+		for name, score in score_dict.items():
 			# if is the same person
-			if value < threshold:
+			if score < threshold:
 				# append name
-				names.append(key)
+				names.append(name)
 
 	# if candidates faces don't match
 	if not names:
