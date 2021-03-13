@@ -6,6 +6,7 @@ from getopt import getopt, GetoptError
 
 PATH = "./dataset/"
 
+
 def get_name(argv):
 	# init first name and last name
 	fname = ''
@@ -13,7 +14,7 @@ def get_name(argv):
 
 	# get opts from command line
 	try:
-		opts, args = getopt(argv,'f:l:h', ["fname=", "lname=", "help="])
+		opts, args = getopt(argv, 'f:l:h', ["fname=", "lname=", "help="])
 	# catch error
 	except GetoptError:
 		print("Wrong usage!")
@@ -49,6 +50,7 @@ def get_name(argv):
 	name = fname + ' ' + lname
 	return name
 
+
 def create_dir(name):
 	# create full path
 	full_path = PATH + name
@@ -58,6 +60,7 @@ def create_dir(name):
 
 	# return new path
 	return full_path
+
 
 def create_images(full_path):
 	# init camera
@@ -100,13 +103,9 @@ def create_images(full_path):
 			cv2.imwrite(image_path, frame)
 			print("Image " + str(image_count) + " written!")
 
-		# escape
-		# elif key % 256 == 27:
-			# print("Finishing")
-			# break
-
 	# destroy camera window
 	cv2.destroyAllWindows()
+
 
 if __name__ == '__main__':
 	# call get name without the first keyword argument (loader.py)

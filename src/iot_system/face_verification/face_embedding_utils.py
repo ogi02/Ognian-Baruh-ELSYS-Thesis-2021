@@ -3,7 +3,7 @@ from numpy import expand_dims
 from keras_vggface.vggface import VGGFace
 from keras_vggface.utils import preprocess_input
 
-# extract faces and calculate face embeddings for a list of photo files
+# get face embedding for one face
 def get_face_embedding(face_pixels, model):
 	# scale pixel values
 	face_pixels = face_pixels.astype("float32")

@@ -19,5 +19,3 @@ src/Pipfile.lock
 src/iot_system/face_verification/exam/*
 # dataset images are images for training
 src/iot_system/face_verification/dataset/*
-# not uploading test images
-src/iot_system/camera_detection/camera_images

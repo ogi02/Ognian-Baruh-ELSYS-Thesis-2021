@@ -1,20 +1,16 @@
 # library imports
-import paho.mqtt.client as mqtt
-
-import sys
-import time
-
+# library imports
 from json import loads
+from time import sleep
 from numpy import load
 from mtcnn.mtcnn import MTCNN
-from cv2 import CascadeClassifier
 from keras_vggface.vggface import VGGFace
 
-# project imports
-from camera_detection.test import take_images_and_recognize
-from door_lock_controller.lock_control import lock_door, unlock_door
+import paho.mqtt.client as mqtt
 
+# project imports
 from face_verification.recognize import recognize_faces
+from door_lock_controller.lock_control import lock_door, unlock_door
 
 # bosch iot suite constants
 TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"
@@ -43,23 +39,23 @@ UNLOCK = "unlock"
 LOCK_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + LOCK_DEVICE_UID
 CAMERA_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID
 
-camera_topic = "e/" + TENANT_ID + "/" + SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID
 
+# client on connect callback
 def client_on_connect(self, userdata, flags, rc):
-	print("Connected")
-
-
+	# messages for lock
 	client.subscribe("command//" + LOCK_COMMANDS_TOPIC + "/req//" + LOCK)
+
+	# messages for unlock
 	client.subscribe("command//" + LOCK_COMMANDS_TOPIC + "/req//" + UNLOCK)
-	# subscribe to camera topic
-	client.subscribe(camera_topic)
+
+	# camera topic
+	client.subscribe("e/" + TENANT_ID + "/" + SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID)
 
 
+# client on message callback
 def client_on_message(self, userdata, msg):
-
 	# get message topic
 	topic = msg.topic
-	print(topic)
 
 	# lock door command
 	if topic == "command//" + LOCK_COMMANDS_TOPIC + "/req//" + LOCK:
@@ -74,19 +70,23 @@ def client_on_message(self, userdata, msg):
 	# get payload from message
 	payload = loads(msg.payload.decode("utf-8"))
 
-	# if message is detected
+	# if message is from camera for the detected property
 	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
-		# get names from face verification model with images from camera
-		names = take_images_and_recognize(trainData, detector, model)
+		# recognize faces with image from url
+		names = recognize_faces(trainData, detector, model)
 
 		print(names)
 
+		# if there are known people
 		if names != UNKNOWN and names != NO_FACES_DETECTED:
+			# unlock door
 			unlock_door()
-			time.sleep(3)
-			lock_door()
 
-		sys.exit(0)
+			# wait 5 seconds
+			sleep(5)
+
+			# lock door
+			lock_door()
 
 
 if __name__ == "__main__":
@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
 	# 	print(filename)
 	# 	# recognize faces
-	# 	names = recognize_faces(filename, trainData, detector, model)
+	# 	names = recognize_faces(trainData, detector, model, filename=filename)
 
 	# 	print(names)
 
