@@ -1,18 +1,12 @@
 # library imports
-import requests
-from sys import exit
 from PIL import Image
-from io import BytesIO
-from os import listdir
+from requests import get
 from numpy import asarray
-from os.path import isdir
-from mtcnn.mtcnn import MTCNN
 
 # image related constants
 IMAGE_WIDTH = 160
 IMAGE_HEIGHT = 160
 REQUIRED_SIZE = [IMAGE_WIDTH, IMAGE_HEIGHT]
-ALLOWED_EXTENSIONS = ".png", ".jpg", ".jpeg"
 
 # camera url constants
 CAMERA_IP = "172.22.173.47"
@@ -86,7 +80,7 @@ def crop_face(face_box, pixels, required_size=REQUIRED_SIZE):
 # extract a single face from a given image
 def extract_single_face(filename, detector):
 	# open the image and get the pixels
-	pixels = get_pixels(filename)
+	pixels = get_pixels_from_file(filename)
 
 	# detect faces in the image
 	face_box = detector.detect_faces(pixels)

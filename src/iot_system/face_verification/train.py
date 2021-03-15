@@ -1,4 +1,7 @@
 # library imports
+from sys import exit
+from os import listdir
+from os.path import isdir
 from mtcnn.mtcnn import MTCNN
 from keras_vggface.vggface import VGGFace
 from numpy import asarray, savez_compressed
@@ -10,6 +13,8 @@ from face_embedding_utils import get_face_embedding
 MODEL_NAME = "vgg16"
 DATASET_FOLDER = "./dataset/"
 EMBEDDING_FILE = "../models/embeddings.npz"
+
+ALLOWED_EXTENSIONS = ".png", ".jpg", ".jpeg"
 
 # load the faces from a directory
 def load_faces(directory, detector):

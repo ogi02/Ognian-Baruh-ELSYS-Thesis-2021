@@ -1,5 +1,4 @@
 # library imports
-# library imports
 from json import loads
 from time import sleep
 from numpy import load
@@ -101,39 +100,8 @@ if __name__ == "__main__":
 	# initialize vggface model
 	model = VGGFace(model=MODEL_NAME, include_top=False, input_shape=(160, 160, 3), pooling="avg")
 
-	# filename = "./test/camera_images/image_3.jpg"
-	# filename2 = "./face_verification/exam/exam_gabi_i_kompaniq.jpg"
-
-	# filenames = [
-	# 	"./face_verification/exam/exam_balls.jpg",
-	# 	"./face_verification/exam/exam_dog.jpg",
-	# 	"./face_verification/exam/exam_gabi_i_cveti.jpg",
-	# 	"./face_verification/exam/exam_gabi_i_kompaniq.jpg",
-	# 	"./face_verification/exam/exam_gabi.jpg",
-	# 	"./face_verification/exam/exam_gabi1.jpg",
-	# 	"./face_verification/exam/exam_gabi2.jpg",
-	# 	"./face_verification/exam/exam_ogi_hacktues.jpg",
-	# 	"./face_verification/exam/exam_ogi_i_gabi.jpg",
-	# 	"./face_verification/exam/exam_ogi_i_gabi2.jpg",
-	# 	"./face_verification/exam/exam_ogi_i_plamen.jpg",
-	# 	"./face_verification/exam/exam_ogi.jpg",
-	# 	"./face_verification/exam/exam_plamen_i_tedi.jpg",
-	# 	"./face_verification/exam/exam_plamen.jpg",
-	# 	"./face_verification/exam/exam_random1.jpg",
-	# 	"./face_verification/exam/exam_shefa.jpg",
-	# 	"./face_verification/exam/exam_tedi.jpg"
-	# ]
-
-	# for filename in filenames:
-
-	# 	print(filename)
-	# 	# recognize faces
-	# 	names = recognize_faces(trainData, detector, model, filename=filename)
-
-	# 	print(names)
-
 	# initialize mqqt client
-	client = mqtt.Client("test", None, None, mqtt.MQTTv311)
+	client = mqtt.Client("iot_system", None, None, mqtt.MQTTv311)
 	client.on_connect = client_on_connect
 	client.on_message = client_on_message
 

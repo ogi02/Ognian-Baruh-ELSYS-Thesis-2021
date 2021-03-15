@@ -2,8 +2,6 @@
 import time
 
 # custom functions imports
-from face_verification.face_extract_utils import load_dataset
-from face_verification.face_extract_utils import extract_single_face
 from face_verification.face_extract_utils import extract_multiple_faces
 from face_verification.face_embedding_utils import get_face_embedding
 from face_verification.candidate_face_check import check_candidate_faces
