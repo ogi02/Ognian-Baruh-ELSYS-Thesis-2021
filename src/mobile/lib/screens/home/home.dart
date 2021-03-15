@@ -1,43 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/colors.dart';
-import 'package:mobile/services/auth.dart';
-import 'package:mobile/services/lock.dart';
-import 'package:mobile/services/secure_storage.dart';
-import 'package:mobile/services/token.dart';
+import 'package:mobile/screens/cameras/cameras_list.dart';
+import 'package:mobile/screens/home/components/home_appbar.dart';
+import 'package:mobile/screens/locks/locks_list.dart';
+import 'package:mobile/screens/notifications/notifications_list.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _HomeState();
+  }
+}
 
-  final AuthService _auth = AuthService();
-  final TokenService _tokenService = TokenService();
-  final LockService _lockService = LockService();
+class _HomeState extends State<Home> {
+
+  int _currentIndex = 0;
+  final List<Widget> _children = [
+    CamerasList(),
+    LocksList(),
+    NotificationsList()
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      body: Row(
-        children: [
-          FlatButton(
-            onPressed: () async {
-              await _auth.signOut();
-            },
-            child: Text("Log Out!"),
+      appBar: HomeAppbar(),
+      body: _children[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: onTabTapped,
+        currentIndex: _currentIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.camera_alt_outlined),
+            label: "Cameras",
           ),
-          FlatButton(
-            onPressed: () async {
-              await _lockService.sendLockMessage();
-            },
-            child: Text("Lock!"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.lock_outline),
+            label: "Door Locks",
           ),
-          FlatButton(
-            onPressed: () async {
-              await _lockService.sendUnlockMessage();
-            },
-            child: Text("Unlock!"),
-          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications_outlined),
+            label: "Notifications",
+          )
         ],
       ),
     );
+  }
+
+  void onTabTapped(int index) {
+    // change state of bottom nav bar
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
 }
