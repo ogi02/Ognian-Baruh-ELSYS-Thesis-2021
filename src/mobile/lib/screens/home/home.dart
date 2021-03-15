@@ -25,12 +25,6 @@ class Home extends StatelessWidget {
           ),
           FlatButton(
             onPressed: () async {
-              await _tokenService.generateToken();
-            },
-            child: Text("Generate token!"),
-          ),
-          FlatButton(
-            onPressed: () async {
               await _lockService.sendLockMessage();
             },
             child: Text("Lock!"),

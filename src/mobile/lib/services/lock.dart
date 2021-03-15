@@ -37,9 +37,7 @@ class LockService {
 
     // generate uri
     Uri uri = generateUri(_lockMessage);
-
-    print(uri.toString());
-
+    
     // init request
     var request = http.Request('POST', uri);
 
@@ -56,8 +54,6 @@ class LockService {
 
     // generate uri
     Uri uri = generateUri(_unlockMessage);
-
-    print(uri.toString());
 
     // init request
     var request = http.Request('POST', uri);
