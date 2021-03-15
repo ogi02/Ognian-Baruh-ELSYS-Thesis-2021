@@ -7,16 +7,16 @@ class LockService {
   final String _apiPath = "api/2/things";
   final String _subscriptionName = "finalyearproj";
   final String _namespace = "iotSystem";
-  final String _lockUid = "da:device:ZWave:FD72A41B%2F5";
+  // final String _lockUid = "da:device:ZWave:FD72A41B%2F5";
   final String _lockMessage = "lock";
   final String _unlockMessage = "unlock";
   final int _defaultTimeout = 0;
 
   final TokenService _tokenService = TokenService();
 
-  Uri generateUri(String message) {
+  Uri generateUri(String message, String lockUid) {
     // generate path
-    String path = _apiPath + "/" + _subscriptionName + ":" + _namespace + ":" + _lockUid + "/inbox/messages/" + message;
+    String path = _apiPath + "/" + _subscriptionName + ":" + _namespace + ":" + lockUid + "/inbox/messages/" + message;
 
     // generate map with query params
     Map<String, String> queryParameters = { "timeout": _defaultTimeout.toString() };
@@ -31,12 +31,12 @@ class LockService {
     };
   }
 
-  Future sendLockMessage() async {
+  Future sendLockMessage(String lockUid) async {
     // get token
     var token = await _tokenService.getToken();
 
     // generate uri
-    Uri uri = generateUri(_lockMessage);
+    Uri uri = generateUri(_lockMessage, lockUid);
     
     // init request
     var request = http.Request('POST', uri);
@@ -48,12 +48,12 @@ class LockService {
     http.StreamedResponse response = await request.send();
   }
 
-  Future sendUnlockMessage() async {
+  Future sendUnlockMessage(String lockUid) async {
     // get token
     var token = await _tokenService.getToken();
 
     // generate uri
-    Uri uri = generateUri(_unlockMessage);
+    Uri uri = generateUri(_unlockMessage, lockUid);
 
     // init request
     var request = http.Request('POST', uri);
