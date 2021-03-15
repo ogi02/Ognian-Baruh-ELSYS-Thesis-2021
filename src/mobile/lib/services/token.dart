@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:mobile/services/secure_storage.dart';
+import 'package:mobile/services/storage.dart';
 
 class TokenService {
 
@@ -9,7 +9,7 @@ class TokenService {
   final SecureStorage _storage = SecureStorage();
 
   // generate token for Bosch IoT Suite
-  Future generateToken() async {
+  Future _generateToken() async {
     // initialize request
     var request = http.Request('POST', Uri.parse('https://access.bosch-iot-suite.com/token HTTP/1.1'));
 
@@ -61,7 +61,7 @@ class TokenService {
   }
 
   // function for decoding jwt token
-  Map<String, dynamic> decodeToken(String token) {
+  Map<String, dynamic> _decodeToken(String token) {
 
     // split the token into 3 parts
     final parts = token.split('.');
@@ -92,14 +92,14 @@ class TokenService {
     // check if token exists
     if (token == null) {
       // generate token
-      await generateToken();
+      await _generateToken();
       // get new token
       token = await _storage.get(_tokenKey);
       return token;
     }
 
     // decode token
-    final decoded = decodeToken(token);
+    final decoded = _decodeToken(token);
 
     // get expiry date
     DateTime exp = DateTime.fromMicrosecondsSinceEpoch(decoded["exp"]).toUtc();
@@ -109,7 +109,7 @@ class TokenService {
     // check if token has expired
     if (exp.isBefore(now)) {
       // generate new token
-      await generateToken();
+      await _generateToken();
       // get new token
       token = await _storage.get(_tokenKey);
     }
