@@ -24,8 +24,7 @@ class LockButton extends StatelessWidget {
           size: 24,
           color: Colors.white,
         ),
-        label: Text(
-          'Lock',
+        label: Text('Lock',
           style: TextStyle(
             fontSize: 24,
             color: Colors.white,

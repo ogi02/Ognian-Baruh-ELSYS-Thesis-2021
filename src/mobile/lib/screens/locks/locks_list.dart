@@ -64,8 +64,7 @@ class _LocksListState extends State<LocksList> {
                           color: blue,
                           size: 24.0,
                         ),
-                        Text(
-                          "  " + snapshot.data[index].data[_lockNameKey],
+                        Text("  " + snapshot.data[index].data[_lockNameKey],
                           style: TextStyle(
                             fontSize: 16,
                             color: blue,

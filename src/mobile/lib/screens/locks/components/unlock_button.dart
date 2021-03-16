@@ -24,8 +24,7 @@ class UnlockButton extends StatelessWidget {
           size: 24,
           color: Colors.white,
         ),
-        label: Text(
-          'Unlock',
+        label: Text('Unlock',
           style: TextStyle(
             fontSize: 24,
             color: Colors.white,

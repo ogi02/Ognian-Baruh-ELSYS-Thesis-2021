@@ -22,11 +22,8 @@ class LockAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: yellow,
-      title: Text(
-        lockName,
-        style: TextStyle(
-          color: black,
-        ),
+      title: Text(lockName,
+        style: TextStyle(color: black),
       ),
       actions: <Widget>[
         IconButton(
