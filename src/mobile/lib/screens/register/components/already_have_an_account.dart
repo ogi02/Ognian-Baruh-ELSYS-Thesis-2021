@@ -1,7 +1,9 @@
+// material
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/signin/signin.dart';
 
+// project
 import 'package:mobile/colors.dart';
+import 'package:mobile/screens/signin/signin.dart';
 
 class AlreadyHaveAnAccount extends StatelessWidget {
   @override
@@ -9,21 +11,18 @@ class AlreadyHaveAnAccount extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          "Already have an account? ",
-          style: TextStyle(
-              color: black
-          ),
+        Text("Already have an account? ",
+          style: TextStyle(color: black),
         ),
         GestureDetector(
           onTap: () {
+            Navigator.of(context).pop();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => SignIn()),
             );
           },
-          child: Text(
-            "Sign in!",
+          child: Text("Sign in!",
             style: TextStyle(
               color: green,
               fontWeight: FontWeight.bold,
