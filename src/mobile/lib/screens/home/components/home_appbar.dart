@@ -1,5 +1,8 @@
-import 'package:mobile/colors.dart';
+// material
 import 'package:flutter/material.dart';
+
+// project
+import 'package:mobile/colors.dart';
 import 'package:mobile/services/auth.dart';
 
 class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
@@ -14,11 +17,8 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: blue,
-      title: Text(
-        "IoT Home System",
-        style: TextStyle(
-          color: white,
-        ),
+      title: Text("IoT Home System",
+        style: TextStyle(color: white),
       ),
       actions: <Widget>[
         IconButton(
