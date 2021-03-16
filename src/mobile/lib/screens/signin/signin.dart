@@ -1,7 +1,11 @@
+// material
 import 'package:flutter/material.dart';
+
+// project
 import 'package:mobile/colors.dart';
-import 'package:mobile/screens/signin/components/not_have_an_account.dart';
 import 'package:mobile/services/auth.dart';
+import 'package:mobile/screens/signin/components/sign_in_appbar.dart';
+import 'package:mobile/screens/signin/components/not_have_an_account.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -9,10 +13,11 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-
+  // authentication service
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
+  // placeholders
   String email = '';
   String password = '';
   String error = '';
@@ -21,15 +26,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      appBar: AppBar(
-        title: Text(
-          "Sign In",
-          style: TextStyle(
-            color: white,
-          ),
-        ),
-        backgroundColor: orange,
-      ),
+      appBar: SignInAppbar(),
       body: Center(
         child: Container(
           padding: EdgeInsets.symmetric(
@@ -40,43 +37,31 @@ class _SignInState extends State<SignIn> {
             key: _formKey,
             child: Column(
               children: [
-                SizedBox(
-                  height: 20.0,
-                ),
+                SizedBox(height: 20.0),
+
                 // Email
                 TextFormField(
                   validator: (val) => val.isEmpty ? "Email is required!" : null,
-                  onChanged: (val) {
-                    setState(() => email = val);
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                  ),
+                  onChanged: (val) => setState(() => email = val),
+                  decoration: InputDecoration(labelText: 'Email'),
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
+
+                SizedBox(height: 10.0),
+
                 // Password
                 TextFormField(
                   obscureText: true,
                   validator: (val) => val.isEmpty ? "Password is required!" : null,
-                  onChanged: (val) {
-                    setState(() => password = val);
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                  ),
+                  onChanged: (val) => setState(() => password = val),
+                  decoration: InputDecoration(labelText: 'Password'),
                 ),
-                SizedBox(
-                  height: 30.0,
-                ),
+
+                SizedBox(height: 30.0),
+
                 // Sign In Button
                 RaisedButton(
-                  child: Text(
-                      "Sign In",
-                    style: TextStyle(
-                      color: white,
-                    ),
+                  child: Text("Sign In",
+                    style: TextStyle(color: white),
                   ),
                   color: orange,
                   onPressed: () async {
@@ -93,21 +78,20 @@ class _SignInState extends State<SignIn> {
                     }
                   },
                 ),
-                SizedBox(
-                  height: 12.0,
-                ),
+
+                SizedBox(height: 12.0),
+
                 // Error field
-                Text(
-                  error,
+                Text(error,
                   style: TextStyle(
                     color: Colors.red,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
+
+                SizedBox(height: 10.0),
+
                 DoNotHaveAnAccount(),
               ],
             ),
