@@ -1,7 +1,10 @@
+// material
 import 'package:flutter/material.dart';
+
+// project
 import 'package:mobile/colors.dart';
-import 'package:mobile/screens/cameras/components/loading_screen.dart';
 import 'package:mobile/services/database.dart';
+import 'package:mobile/screens/cameras/components/loading_screen.dart';
 
 class CamerasList extends StatefulWidget {
   @override
@@ -11,9 +14,10 @@ class CamerasList extends StatefulWidget {
 }
 
 class _CamerasListState extends State<CamerasList> {
-
+  // database service
   final CloudFirestoreService _dbService = new CloudFirestoreService();
 
+  // camera object key constants
   final String _cameraNameKey = "name";
 
   @override
@@ -55,8 +59,7 @@ class _CamerasListState extends State<CamerasList> {
                               color: blue,
                               size: 24.0,
                             ),
-                            Text(
-                              "  " + snapshot.data[index].data[_cameraNameKey],
+                            Text("  " + snapshot.data[index].data[_cameraNameKey],
                               style: TextStyle(
                                 fontSize: 16,
                                 color: blue,

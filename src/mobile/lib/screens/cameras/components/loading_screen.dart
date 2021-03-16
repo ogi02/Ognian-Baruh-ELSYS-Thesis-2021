@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
+// material
+import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-          "Loading ..."
-      ),
+      child: Text("Loading ..."),
     );
   }
 }
