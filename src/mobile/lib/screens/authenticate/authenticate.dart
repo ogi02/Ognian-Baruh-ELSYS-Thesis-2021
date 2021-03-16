@@ -1,6 +1,8 @@
+// material
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
 
+// project
+import 'package:mobile/colors.dart';
 import 'package:mobile/screens/authenticate/components/components.dart';
 
 class Authenticate extends StatelessWidget {
@@ -8,15 +10,7 @@ class Authenticate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      appBar: AppBar(
-        title: Text(
-          "IoT Home System",
-          style: TextStyle(
-            color: white,
-          ),
-        ),
-        backgroundColor: blue,
-      ),
+      appBar: AuthenticateAppbar(),
       body: Container(
         child: Center(
           child: Column(
@@ -27,6 +21,7 @@ class Authenticate extends StatelessWidget {
               BodyIcon(),
               // Login and Register
               Container(
+                margin: EdgeInsets.symmetric(vertical: 16.0),
                 child: Column(
                   children: [
                     // Sign in
@@ -34,9 +29,6 @@ class Authenticate extends StatelessWidget {
                     // Register
                     RegisterButton(),
                   ],
-                ),
-                margin: EdgeInsets.symmetric(
-                  vertical: 16.0,
                 ),
               ),
             ],

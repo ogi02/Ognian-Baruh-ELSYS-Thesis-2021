@@ -1,4 +1,7 @@
+// material
 import 'package:flutter/material.dart';
+
+// project
 import 'package:mobile/colors.dart';
 
 class BodyIcon extends StatelessWidget {
@@ -11,9 +14,7 @@ class BodyIcon extends StatelessWidget {
         color: yellow,
       ),
       margin: EdgeInsets.all(24.0),
-      padding: EdgeInsets.symmetric(
-        vertical: 12.0,
-      ),
+      padding: EdgeInsets.symmetric(vertical: 12.0),
     );
   }
 }
