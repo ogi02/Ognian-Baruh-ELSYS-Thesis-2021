@@ -7,7 +7,6 @@ class LockService {
   final String _apiPath = "api/2/things";
   final String _subscriptionName = "finalyearproj";
   final String _namespace = "iotSystem";
-  // final String _lockUid = "da:device:ZWave:FD72A41B%2F5";
   final String _lockMessage = "lock";
   final String _unlockMessage = "unlock";
   final int _defaultTimeout = 0;
