@@ -65,7 +65,7 @@ def create_dir(name):
 def create_images(full_path):
 	# init camera
 	cam = cv2.VideoCapture(0)
-	window_message = "Press space to take a photo or escape to finish!"
+	window_message = "Press space to take a photo!"
 
 	# create window to view the camera
 	cv2.namedWindow(window_message, cv2.WINDOW_NORMAL)
