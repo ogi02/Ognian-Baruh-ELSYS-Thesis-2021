@@ -9,9 +9,9 @@ from google.cloud import firestore
 CAMERA_IP = "172.22.173.47"
 AUTH_USERNAME = "service"
 AUTH_PASSWORD = "Admin!234"
-# IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
-IMAGE_1 = "https://filedn.com/ltOdFv1aqz1YIFhf4gTY8D7/ingus-info/BLOGS/Photography-stocks3/stock-photography-slider.jpg"
-IMAGE_2 = "https://images.unsplash.com/photo-1494253109108-2e30c049369b?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHJhbmRvbXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
+IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
+# IMAGE_1 = "https://filedn.com/ltOdFv1aqz1YIFhf4gTY8D7/ingus-info/BLOGS/Photography-stocks3/stock-photography-slider.jpg"
+# IMAGE_2 = "https://images.unsplash.com/photo-1494253109108-2e30c049369b?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHJhbmRvbXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
 
 # camera uid
 CAMERA_DEVICE_UID = "da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009"
@@ -24,8 +24,8 @@ IMAGES_ON_DEMAND_FOLDER_NAME = "imagesOnDemand"
 # open image from url
 def open_image_from_url():
 	# retrieve image from url
-	# resp = get(url, auth=HTTPDigestAuth(AUTH_USERNAME, AUTH_PASSWORD), stream=True)
-	resp = get(IMAGE_1, stream=True)
+	resp = get(IMAGE_FROM_CAMERA_URL, auth=HTTPDigestAuth(AUTH_USERNAME, AUTH_PASSWORD), stream=True)
+	# resp = get(IMAGE_2, stream=True)
 
 	# return raw image data
 	return resp.content
@@ -76,4 +76,4 @@ def send_screenshot():
 	send_time_of_image_to_firestore()
 
 
-send_screenshot()
+# send_screenshot()
