@@ -9,7 +9,10 @@ import paho.mqtt.client as mqtt
 
 # project imports
 from face_verification.recognize import recognize_faces
-from door_lock_controller.lock_control import lock_door, unlock_door
+from door_lock_controller.lock_control import lock_door
+from door_lock_controller.lock_control import unlock_door
+from camera_controller.screenshot_control import send_screenshot
+from camera_controller.notification_control import send_notification
 
 # bosch iot suite constants
 TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"
@@ -29,10 +32,11 @@ RASPBERRY_IP = "172.22.150.239"
 # camera constants
 UNKNOWN = "Unknown"
 NO_FACES_DETECTED = "No faces detected"
+GET_SCREENSHOT_COMMAND = "getScreenshot"
 
 # lock constants
-LOCK = "lock"
-UNLOCK = "unlock"
+LOCK_COMMAND = "lock"
+UNLOCK_COMMAND = "unlock"
 
 # device commands topics
 LOCK_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + LOCK_DEVICE_UID
@@ -57,13 +61,18 @@ def client_on_message(self, userdata, msg):
 	topic = msg.topic
 
 	# lock door command
-	if topic == "command//" + LOCK_COMMANDS_TOPIC + "/req//" + LOCK:
+	if topic == "command//" + LOCK_COMMANDS_TOPIC + "/req//" + LOCK_COMMAND:
 		lock_door()
 		return
 
 	# unlock door command
-	if topic == "command//" + LOCK_COMMANDS_TOPIC + "/req//" + UNLOCK:
+	if topic == "command//" + LOCK_COMMANDS_TOPIC + "/req//" + UNLOCK_COMMAND:
 		unlock_door()
+		return
+
+	# send screenshot command
+	if topic == "command//" + CAMERA_COMMANDS_TOPIC + "/req//" + GET_SCREENSHOT_COMMAND:
+		send_screenshot()
 		return
 
 	# get payload from message
@@ -71,13 +80,18 @@ def client_on_message(self, userdata, msg):
 
 	# if message is from camera for the detected property
 	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
+		# get_image
+		image = get(IMAGE_1, stream=True).content
+
 		# recognize faces with image from url
 		names = recognize_faces(trainData, detector, model)
 
-		print(names)
+		# send notification
+		send_notification(names, image)
 
 		# if there are known people
 		if names != UNKNOWN and names != NO_FACES_DETECTED:
+
 			# unlock door
 			unlock_door()
 
