@@ -46,13 +46,18 @@ CAMERA_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DE
 # client on connect callback
 def client_on_connect(self, userdata, flags, rc):
 	# messages for lock
-	client.subscribe("command//" + LOCK_COMMANDS_TOPIC + "/req//" + LOCK)
+	client.subscribe("command//" + LOCK_COMMANDS_TOPIC + "/req//" + LOCK_COMMAND)
 
 	# messages for unlock
-	client.subscribe("command//" + LOCK_COMMANDS_TOPIC + "/req//" + UNLOCK)
+	client.subscribe("command//" + LOCK_COMMANDS_TOPIC + "/req//" + UNLOCK_COMMAND)
+
+	# messages for get screenshot
+	client.subscribe("command//" + CAMERA_COMMANDS_TOPIC + "/req//" + GET_SCREENSHOT_COMMAND)
 
 	# camera topic
 	client.subscribe("e/" + TENANT_ID + "/" + SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID)
+
+	print("IoT System Initialized!")
 
 
 # client on message callback

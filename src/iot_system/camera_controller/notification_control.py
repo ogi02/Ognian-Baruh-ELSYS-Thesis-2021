@@ -57,7 +57,7 @@ def send_notification_to_firestore(notification_document, names):
 
 	# update values
 	doc_ref.set({
-		u'time': now
+		u'time': now,
 		u'names': names
 	})
 
@@ -72,6 +72,6 @@ def send_notification(names, image):
 	# send update message to cloud firestore
 	send_notification_to_firestore(notification_id, names)
 
-send_notification(["Ognian Baruh"])
+# send_notification(["Ognian Baruh"])
 # send_notification("Unknown")
 # send_notification("No faces detected")

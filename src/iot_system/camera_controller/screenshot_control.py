@@ -4,6 +4,7 @@ from time import time
 from requests import get
 from google.cloud import storage
 from google.cloud import firestore
+from requests.auth import HTTPDigestAuth
 
 # image constants
 CAMERA_IP = "172.22.173.47"

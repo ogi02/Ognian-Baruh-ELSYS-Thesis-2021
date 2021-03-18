@@ -2,6 +2,7 @@
 from PIL import Image
 from requests import get
 from numpy import asarray
+from requests.auth import HTTPDigestAuth
 
 # image related constants
 IMAGE_WIDTH = 160
