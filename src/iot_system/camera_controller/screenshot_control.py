@@ -18,7 +18,7 @@ CAMERA_DEVICE_UID = "da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822
 
 # bucket constants
 BUCKET_ID = "iot-home-system-7dab8.appspot.com"
-FOLDER_NAME = "imagesOnDemand"
+IMAGES_ON_DEMAND_FOLDER_NAME = "imagesOnDemand"
 
 
 # open image from url
@@ -43,16 +43,13 @@ def send_image_to_cloud_storage():
 	bucket = client.get_bucket(BUCKET_ID)
 
 	# create blob
-	blob = bucket.blob(FOLDER_NAME + "/" + CAMERA_DEVICE_UID + "/image_on_demand.jpg")
+	blob = bucket.blob(IMAGES_ON_DEMAND_FOLDER_NAME + "/" + CAMERA_DEVICE_UID + "/image_on_demand.jpg")
 
 	# upload image
 	blob.upload_from_string(
 		image_data,
 		content_type='image/jpg'
 	)
-
-	# send time to firestore
-	send_time_of_image_to_firestore()
 
 # send update message to firestore
 def send_time_of_image_to_firestore():
@@ -70,4 +67,13 @@ def send_time_of_image_to_firestore():
 		u'time': now
 	})
 
-send_image_to_cloud_storage()
+# send screenshot
+def send_screenshot():
+	# send screenshot to firebase cloud storage
+	send_image_to_cloud_storage()
+
+	# send update to firestore
+	send_time_of_image_to_firestore()
+
+
+send_screenshot()
