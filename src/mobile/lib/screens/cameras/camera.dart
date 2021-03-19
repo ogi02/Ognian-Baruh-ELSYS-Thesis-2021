@@ -1,15 +1,16 @@
 // material
 import 'package:flutter/material.dart';
 
-// custom
+// others
 import 'package:intl/intl.dart';
 
 // firebase
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:mobile/colors.dart';
 
 // project
+import 'package:mobile/colors.dart';
+import 'package:mobile/services/camera.dart';
 import 'package:mobile/services/storage.dart';
 import 'package:mobile/screens/cameras/components/camera_appbar.dart';
 
@@ -32,6 +33,9 @@ class _CameraState extends State<Camera> {
   StorageReference _cloudStorageRef;
   Future<String> _url;
   Future<String> _userId;
+
+  // camera service
+  final CameraService _cameraService = CameraService();
 
   // constructor
   _CameraState(camera) {
@@ -123,7 +127,9 @@ class _CameraState extends State<Camera> {
         ),
       ),
       floatingActionButton: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          _cameraService.sendGetImageMessage(_cameraUid);
+        },
         child: Text("Get Image",
           style: TextStyle(
               fontSize: 20,

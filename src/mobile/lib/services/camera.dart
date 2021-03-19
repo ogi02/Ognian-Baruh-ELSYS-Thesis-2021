@@ -7,7 +7,7 @@ class CameraService {
   final String _apiPath = "api/2/things";
   final String _subscriptionName = "finalyearproj";
   final String _namespace = "iotSystem";
-  final String _getImageMessage = "screenshot";
+  final String _getImageMessage = "getScreenshot";
   final int _defaultTimeout = 0;
 
   final TokenService _tokenService = TokenService();
