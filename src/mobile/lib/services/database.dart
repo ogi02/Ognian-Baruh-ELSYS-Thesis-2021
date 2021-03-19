@@ -62,6 +62,7 @@ class CloudFirestoreService {
     QuerySnapshot qn = await _databaseReference
         .collection(_notificationsCollection)
         .where("camera_uid", whereIn: cameraUids)
+        .orderBy("time", descending: true)
         .getDocuments();
 
     return qn.documents;
