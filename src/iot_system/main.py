@@ -1,4 +1,5 @@
 # library imports
+from time import time
 from json import loads
 from time import sleep
 from numpy import load
@@ -45,9 +46,13 @@ LOCK_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + LOCK_DEVICE
 CAMERA_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID
 
 # image constants
+CAMERA_IP = "172.22.173.47"
 AUTH_USERNAME = "service"
 AUTH_PASSWORD = "Admin!234"
 IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
+
+# 30000 millis = 30 sec
+millis_of_last_operation = 0
 
 
 # client on connect callback
@@ -69,6 +74,8 @@ def client_on_connect(self, userdata, flags, rc):
 
 # client on message callback
 def client_on_message(self, userdata, msg):
+	global millis_of_last_operation
+
 	# get message topic
 	topic = msg.topic
 
@@ -92,26 +99,32 @@ def client_on_message(self, userdata, msg):
 
 	# if message is from camera for the detected property
 	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
-		# get_image
-		image = get(IMAGE_FROM_CAMERA_URL, auth=HTTPDigestAuth(AUTH_USERNAME, AUTH_PASSWORD), stream=True).content
+		# get now
+		millis_now = time() * 1000
 
-		# recognize faces with image from url
-		names = recognize_faces(trainData, detector, model)
+		if millis_now - millis_of_last_operation >= 30000:
+			# get_image
+			image = get(IMAGE_FROM_CAMERA_URL, auth=HTTPDigestAuth(AUTH_USERNAME, AUTH_PASSWORD), stream=True).content
 
-		# send notification
-		send_notification(names, image)
+			# recognize faces with image from url
+			names = recognize_faces(trainData, detector, model)
 
-		# if there are known people
-		if names != UNKNOWN and names != NO_FACES_DETECTED:
+			# send notification
+			send_notification(names, image)
 
-			# unlock door
-			unlock_door()
+			# if there are known people
+			if names[0] != UNKNOWN and names[0] != NO_FACES_DETECTED:
 
-			# wait 5 seconds
-			sleep(5)
+				# unlock door
+				unlock_door()
 
-			# lock door
-			lock_door()
+				# wait 5 seconds
+				sleep(5)
+
+				# lock door
+				lock_door()
+
+			millis_of_last_operation = time() * 1000
 
 
 if __name__ == "__main__":
