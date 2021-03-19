@@ -52,6 +52,6 @@ def check_candidate_faces(trainData, candidate_embeddings, threshold=0.3):
 
 	# if candidates faces don't match
 	if not names:
-		return "Unknown"
+		return ["Unknown"]
 
 	return names

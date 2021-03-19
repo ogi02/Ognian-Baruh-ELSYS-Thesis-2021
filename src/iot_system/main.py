@@ -2,7 +2,9 @@
 from json import loads
 from time import sleep
 from numpy import load
+from requests import get
 from mtcnn.mtcnn import MTCNN
+from requests.auth import HTTPDigestAuth
 from keras_vggface.vggface import VGGFace
 
 import paho.mqtt.client as mqtt

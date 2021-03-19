@@ -20,7 +20,7 @@ def recognize_faces(trainData, detector, model, filename=None):
 
 	# check for faces in the image
 	if not candidate_faces:
-		return 'No faces detected'
+		return ['No faces detected']
 
 	# get face embeddings of all candidates
 	candidate_embeddings = [get_face_embedding(face, model) for face in candidate_faces]
