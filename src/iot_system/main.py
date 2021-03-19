@@ -44,6 +44,11 @@ UNLOCK_COMMAND = "unlock"
 LOCK_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + LOCK_DEVICE_UID
 CAMERA_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID
 
+# image constants
+AUTH_USERNAME = "service"
+AUTH_PASSWORD = "Admin!234"
+IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
+
 
 # client on connect callback
 def client_on_connect(self, userdata, flags, rc):
@@ -88,7 +93,7 @@ def client_on_message(self, userdata, msg):
 	# if message is from camera for the detected property
 	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
 		# get_image
-		image = get(IMAGE_1, stream=True).content
+		image = get(IMAGE_FROM_CAMERA_URL, auth=HTTPDigestAuth(AUTH_USERNAME, AUTH_PASSWORD), stream=True).content
 
 		# recognize faces with image from url
 		names = recognize_faces(trainData, detector, model)

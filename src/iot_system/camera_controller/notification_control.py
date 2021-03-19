@@ -70,8 +70,8 @@ def send_notification(names, image):
 	# send update message to cloud firestore
 	send_notification_to_firestore(notification_id, names)
 
-image = get(IMAGE_2, stream=True).content
+# image = get(IMAGE_2, stream=True).content
 
-send_notification(["Ognian Baruh", "Gabriela Yoncheva"], image)
+# send_notification(["Ognian Baruh", "Gabriela Yoncheva"], image)
 # send_notification(["Unknown"], image)
 # send_notification(["No faces detected"], image)
