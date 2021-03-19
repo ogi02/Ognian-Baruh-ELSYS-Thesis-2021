@@ -41,10 +41,6 @@ class _NotificationState extends State<NotificationPage> {
 
   // constructor
   _NotificationState(this._date, this._message, this._cameraUid, this._notificationId) {
-    print(_date);
-    print(_message);
-    print(_cameraUid);
-    print(_notificationId);
     // reference to firebase storage
     _cloudStorageRef = FirebaseStorage.instance
         .ref()

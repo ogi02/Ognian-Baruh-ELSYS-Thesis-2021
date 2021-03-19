@@ -41,7 +41,7 @@ class _CameraState extends State<Camera> {
   _CameraState(camera) {
     this._cameraName = camera.data["name"];
     this._cameraUid = camera.data["camera_uid"];
-
+    
     // reference to firebase storage
     this._cloudStorageRef = FirebaseStorage.instance
         .ref()
