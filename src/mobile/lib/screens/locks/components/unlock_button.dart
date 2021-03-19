@@ -9,10 +9,10 @@ class UnlockButton extends StatelessWidget {
   final LockService _lockService = new LockService();
 
   // uid of lock
-  final String lockUidKey;
+  final String lockUid;
 
   // constructor
-  UnlockButton({this.lockUidKey});
+  UnlockButton({this.lockUid});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class UnlockButton extends StatelessWidget {
           ),
         ),
         onPressed: () async {
-          await _lockService.sendUnlockMessage(lockUidKey);
+          await _lockService.sendUnlockMessage(lockUid);
         },
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.green,

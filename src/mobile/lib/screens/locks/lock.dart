@@ -35,8 +35,8 @@ class _LockState extends State<Lock> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            UnlockButton(lockUidKey: widget.lock.data[_lockUidKey]),
-            LockButton(lockUidKey: widget.lock.data[_lockUidKey]),
+            UnlockButton(lockUid: widget.lock.data[_lockUidKey]),
+            LockButton(lockUid: widget.lock.data[_lockUidKey]),
           ],
         ),
       ),
