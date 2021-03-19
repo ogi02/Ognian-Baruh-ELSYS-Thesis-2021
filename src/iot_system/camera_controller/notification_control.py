@@ -12,7 +12,6 @@ from google.cloud import firestore
 CAMERA_IP = "172.22.173.47"
 AUTH_USERNAME = "service"
 AUTH_PASSWORD = "Admin!234"
-# IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
 IMAGE_1 = "https://filedn.com/ltOdFv1aqz1YIFhf4gTY8D7/ingus-info/BLOGS/Photography-stocks3/stock-photography-slider.jpg"
 IMAGE_2 = "https://images.unsplash.com/photo-1494253109108-2e30c049369b?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHJhbmRvbXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
 
@@ -41,16 +40,13 @@ def send_image_to_cloud_storage(image_name, image_data):
 		content_type='image/jpg'
 	)
 
-	# send time to firestore
-	send_time_of_image_to_firestore()
-
 # send update message to firestore
-def send_notification_to_firestore(notification_document, names):
+def send_notification_to_firestore(notification_id, names):
 	# init firestore client
 	db = firestore.Client()
 
 	# get document
-	doc_ref = db.collection(u'notifications').document(CAMERA_DEVICE_UID).document(notification_document)
+	doc_ref = db.collection(u'notifications').document(notification_id)
 
 	# get now time
 	now = round(time() * 1000)
@@ -58,7 +54,9 @@ def send_notification_to_firestore(notification_document, names):
 	# update values
 	doc_ref.set({
 		u'time': now,
-		u'names': names
+		u'names': names,
+		u'camera_uid': CAMERA_DEVICE_UID,
+		u'notification_id': notification_id
 	})
 
 # send notification
@@ -72,6 +70,8 @@ def send_notification(names, image):
 	# send update message to cloud firestore
 	send_notification_to_firestore(notification_id, names)
 
-# send_notification(["Ognian Baruh"])
-# send_notification("Unknown")
-# send_notification("No faces detected")
+image = get(IMAGE_2, stream=True).content
+
+send_notification(["Ognian Baruh", "Gabriela Yoncheva"], image)
+# send_notification(["Unknown"], image)
+# send_notification(["No faces detected"], image)
