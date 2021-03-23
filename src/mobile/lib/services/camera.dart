@@ -12,7 +12,7 @@ class CameraService {
 
   final TokenService _tokenService = TokenService();
 
-  Uri generateUri(String message, String cameraUid) {
+  Uri _generateUri(String message, String cameraUid) {
     // generate path
     String path = _apiPath + "/" + _subscriptionName + ":" + _namespace + ":" + cameraUid + "/inbox/messages/" + message;
 
@@ -23,7 +23,7 @@ class CameraService {
     return new Uri.https(_apiUrl, path, queryParameters);
   }
 
-  Map<String, String> generateHeaders(String token) {
+  Map<String, String> _generateHeaders(String token) {
     return {
       "Authorization": "Bearer " + token
     };
@@ -34,13 +34,13 @@ class CameraService {
     var token = await _tokenService.getToken();
 
     // generate uri
-    Uri uri = generateUri(_getImageMessage, cameraUid);
+    Uri uri = _generateUri(_getImageMessage, cameraUid);
 
     // init request
     var request = http.Request('POST', uri);
 
     // add headers to request
-    request.headers.addAll(generateHeaders(token));
+    request.headers.addAll(_generateHeaders(token));
 
     // send request
     http.StreamedResponse response = await request.send();

@@ -13,7 +13,7 @@ class LockService {
 
   final TokenService _tokenService = TokenService();
 
-  Uri generateUri(String message, String lockUid) {
+  Uri _generateUri(String message, String lockUid) {
     // generate path
     String path = _apiPath + "/" + _subscriptionName + ":" + _namespace + ":" + lockUid + "/inbox/messages/" + message;
 
@@ -24,7 +24,7 @@ class LockService {
     return new Uri.https(_apiUrl, path, queryParameters);
   }
 
-  Map<String, String> generateHeaders(String token) {
+  Map<String, String> _generateHeaders(String token) {
     return {
       "Authorization": "Bearer " + token
     };
@@ -35,13 +35,13 @@ class LockService {
     var token = await _tokenService.getToken();
 
     // generate uri
-    Uri uri = generateUri(_lockMessage, lockUid);
+    Uri uri = _generateUri(_lockMessage, lockUid);
     
     // init request
     var request = http.Request('POST', uri);
 
     // add headers to request
-    request.headers.addAll(generateHeaders(token));
+    request.headers.addAll(_generateHeaders(token));
 
     // send request
     http.StreamedResponse response = await request.send();
@@ -52,13 +52,13 @@ class LockService {
     var token = await _tokenService.getToken();
 
     // generate uri
-    Uri uri = generateUri(_unlockMessage, lockUid);
+    Uri uri = _generateUri(_unlockMessage, lockUid);
 
     // init request
     var request = http.Request('POST', uri);
 
     // add headers to request
-    request.headers.addAll(generateHeaders(token));
+    request.headers.addAll(_generateHeaders(token));
 
     // send request
     http.StreamedResponse response = await request.send();

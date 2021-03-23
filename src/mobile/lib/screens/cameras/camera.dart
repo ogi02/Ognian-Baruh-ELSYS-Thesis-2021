@@ -107,7 +107,10 @@ class _CameraState extends State<Camera> {
                         return Text("Loading ..");
                       } else {
                         // update image
-                        WidgetsBinding.instance.addPostFrameCallback((_) => _update());
+                        Future.delayed(Duration.zero, () async {
+                          _update();
+                        });
+                        // WidgetsBinding.instance.addPostFrameCallback((_) => _update());
 
                         // get timestamp from firestore
                         var timestamp = snapshot.data.documentChanges.first.document.data["time"];

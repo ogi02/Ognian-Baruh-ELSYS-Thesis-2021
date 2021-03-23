@@ -14,7 +14,7 @@ class CloudFirestoreService {
   final String _userIdKey = "userID";
 
   // secure storage
-  final SecureStorage _storage = new SecureStorage();
+  final SecureStorage _storage = SecureStorage();
 
   Future getCameras() async {
     // get user id from secure storage
