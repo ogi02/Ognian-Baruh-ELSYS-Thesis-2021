@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/services/database.dart';
 import 'package:mobile/screens/notifications/notification.dart';
+import 'package:mobile/screens/notifications/components/loading_screen.dart';
 
 class NotificationsList extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _NotificationsListState extends State<NotificationsList> {
         future: _dbService.getNotifications(),
         builder: (_, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading ..");
+            return LoadingScreen();
           } else {
               return ListView.builder(
                 itemCount: snapshot.data.length,
