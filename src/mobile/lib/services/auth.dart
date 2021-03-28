@@ -10,23 +10,23 @@ class AuthService {
   final String _userIdKey = "userID";
 
   // create user from firebaseUser
-  User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
+  AppUser _userFromFirebaseUser(User user) {
+    return user != null ? AppUser(uid: user.uid) : null;
   }
 
   // auth change user stream
-  Stream<User> get user {
-    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+  Stream<AppUser> get user {
+    return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
   // sign in
   Future signIn(String email, String password) async {
     try {
       // call firebase function
-      AuthResult res = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential res = await _auth.signInWithEmailAndPassword(email: email, password: password);
 
       // get user
-      FirebaseUser user = res.user;
+      User user = res.user;
 
       // add user id to storage
       await _storage.write(_userIdKey, user.uid);
@@ -41,10 +41,10 @@ class AuthService {
   Future register(String email, String password) async {
     try {
       // call firebase functions
-      AuthResult res = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential res = await _auth.createUserWithEmailAndPassword(email: email, password: password);
 
       // get user
-      FirebaseUser user = res.user;
+      User user = res.user;
 
       // add user id to storage
       await _storage.write(_userIdKey, user.uid);

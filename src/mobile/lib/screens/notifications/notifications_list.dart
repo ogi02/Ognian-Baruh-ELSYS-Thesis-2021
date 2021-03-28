@@ -34,22 +34,22 @@ class _NotificationsListState extends State<NotificationsList> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (_, index) {
                   // get timestamp from firestore
-                  var timestamp = snapshot.data[index].data["time"];
+                  var timestamp = snapshot.data[index].get("time");
                   // get date from timestamp
                   var date = DateTime.fromMillisecondsSinceEpoch(timestamp).toLocal();
                   // get formatted date
                   String dateText = DateFormat().add_MMMMEEEEd().add_Hms().format(date);
 
                   // get detected names
-                  var names = snapshot.data[index].data["names"];
+                  var names = snapshot.data[index].get("names");
                   // generate message
                   String message = names.join(", ");
 
                   // get camera uid
-                  String cameraUid = snapshot.data[index].data["camera_uid"];
+                  String cameraUid = snapshot.data[index].get("camera_uid");
 
                   // get notification id
-                  String notificationId = snapshot.data[index].data["notification_id"];
+                  String notificationId = snapshot.data[index].get("notification_id");
 
                   return Container(
                     margin: EdgeInsets.only(

@@ -1,7 +1,9 @@
-class User {
+import 'package:flutter/material.dart';
 
+class AppUser {
   final String uid;
 
-  User({ this.uid });
-
+  AppUser({
+    @required this.uid
+  });
 }

@@ -30,7 +30,7 @@ class Camera extends StatefulWidget {
 class _CameraState extends State<Camera> {
   // parameters
   String _cameraName, _cameraUid;
-  StorageReference _cloudStorageRef;
+  Reference _cloudStorageRef;
   Future<String> _url;
   Future<String> _userId;
 
@@ -39,8 +39,8 @@ class _CameraState extends State<Camera> {
 
   // constructor
   _CameraState(camera) {
-    this._cameraName = camera.data["name"];
-    this._cameraUid = camera.data["camera_uid"];
+    this._cameraName = camera.get("name");
+    this._cameraUid = camera.get("camera_uid");
     
     // reference to firebase storage
     this._cloudStorageRef = FirebaseStorage.instance
@@ -96,9 +96,9 @@ class _CameraState extends State<Camera> {
                   String userId = snapshot.data;
                   return StreamBuilder(
                     // get stream for the document of the camera
-                    stream: Firestore.instance
+                    stream: FirebaseFirestore.instance
                         .collection('user_devices')
-                        .document(userId)
+                        .doc(userId)
                         .collection('cameras')
                         .where('camera_uid', isEqualTo: _cameraUid)
                         .snapshots(),
@@ -113,7 +113,7 @@ class _CameraState extends State<Camera> {
                         // WidgetsBinding.instance.addPostFrameCallback((_) => _update());
 
                         // get timestamp from firestore
-                        var timestamp = snapshot.data.documentChanges.first.document.data["time"];
+                        var timestamp = snapshot.data.docChanges.first.doc.get("time");
 
                         // get date from timestamp
                         var date = DateTime.fromMillisecondsSinceEpoch(timestamp).toLocal();

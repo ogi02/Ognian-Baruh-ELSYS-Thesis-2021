@@ -30,13 +30,13 @@ class _LockState extends State<Lock> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LockAppbar(lockName: widget.lock.data[_lockNameKey]),
+      appBar: LockAppbar(lockName: widget.lock.get(_lockNameKey)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            UnlockButton(lockUid: widget.lock.data[_lockUidKey]),
-            LockButton(lockUid: widget.lock.data[_lockUidKey]),
+            UnlockButton(lockUid: widget.lock.get(_lockUidKey)),
+            LockButton(lockUid: widget.lock.get(_lockUidKey)),
           ],
         ),
       ),

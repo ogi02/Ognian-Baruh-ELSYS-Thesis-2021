@@ -64,7 +64,7 @@ class _CamerasListState extends State<CamerasList> {
                           color: blue,
                           size: 24.0,
                         ),
-                        Text("  " + snapshot.data[index].data[_cameraNameKey],
+                        Text("  " + snapshot.data[index].get(_cameraNameKey),
                           style: TextStyle(
                             fontSize: 16,
                             color: blue,

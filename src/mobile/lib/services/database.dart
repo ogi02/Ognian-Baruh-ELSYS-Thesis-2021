@@ -4,7 +4,7 @@ import 'package:mobile/services/storage.dart';
 class CloudFirestoreService {
 
   // db reference
-  final _databaseReference = Firestore.instance;
+  final _databaseReference = FirebaseFirestore.instance;
 
   // db constants
   final String _userDevicesCollection = "user_devices";
@@ -23,11 +23,11 @@ class CloudFirestoreService {
     // get cameras from the collection of the user
     QuerySnapshot qn = await _databaseReference
         .collection(_userDevicesCollection)
-        .document(userId)
+        .doc(userId)
         .collection(_camerasCollection)
-        .getDocuments();
+        .get();
 
-    return qn.documents;
+    return qn.docs;
   }
 
   Future getLocks() async {
@@ -37,11 +37,11 @@ class CloudFirestoreService {
     // get locks from the collection of the user
     QuerySnapshot qn = await _databaseReference
         .collection(_userDevicesCollection)
-        .document(userId)
+        .doc(userId)
         .collection(_locksCollection)
-        .getDocuments();
+        .get();
 
-    return qn.documents;
+    return qn.docs;
   }
 
   Future getNotifications() async {
@@ -53,18 +53,18 @@ class CloudFirestoreService {
     // get all cameras for a certain user
     await _databaseReference
         .collection(_userDevicesCollection)
-        .document(userId)
+        .doc(userId)
         .collection(_camerasCollection)
-        .getDocuments()
-        .then((qn) => qn.documents.forEach((doc) => cameraUids.add(doc.data["camera_uid"])));
+        .get()
+        .then((qn) => qn.docs.forEach((doc) => cameraUids.add(doc.get("camera_uid"))));
 
     // get notifications from the collection of the notification, using the camera uid
     QuerySnapshot qn = await _databaseReference
         .collection(_notificationsCollection)
         .where("camera_uid", whereIn: cameraUids)
         .orderBy("time", descending: true)
-        .getDocuments();
+        .get();
 
-    return qn.documents;
+    return qn.docs;
   }
 }
