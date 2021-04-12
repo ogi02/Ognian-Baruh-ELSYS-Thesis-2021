@@ -15,7 +15,7 @@ from face_verification.recognize import recognize_faces
 from door_lock_controller.lock_control import lock_door
 from door_lock_controller.lock_control import unlock_door
 from camera_controller.screenshot_control import send_screenshot
-from camera_controller.notification_control import send_notification
+from notification_controller.notification_control import send_notification
 
 # bosch iot suite constants
 TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"
