@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/colors.dart';
 import 'package:mobile/services/messaging.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -35,8 +36,18 @@ class MyApp extends StatelessWidget {
           );
         }
         return MaterialApp(
-          home: Center(
-            child: Text("Loading .."),
+          color: white,
+          home: Scaffold(
+            body: Center(
+              child: Container(
+                color: white,
+                child: Text("Loading ..",
+                  style: TextStyle(
+                      color: black
+                  ),
+                ),
+              ),
+            )
           )
         );
       }
