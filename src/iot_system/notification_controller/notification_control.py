@@ -118,11 +118,4 @@ def send_notification(names, image):
 	send_cloud_notification(notification_id, names, now)
 
 
-
-# image = get(IMAGE_2, stream=True).content
-
-# send_notification(["Ognian Baruh", "Gabriela Yoncheva"], image)
-# send_notification(["Unknown"], image)
-# send_notification(["No faces detected"], image)
-
 send_cloud_notification("test", "Unknown", round(time() * 1000))

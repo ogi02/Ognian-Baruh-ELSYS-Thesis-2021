@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io' show Platform;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +43,7 @@ class PushNotificationService {
     final timestamp = int.parse(notification.body);
     // get time from timestamp
     final time = DateTime.fromMillisecondsSinceEpoch(timestamp).toLocal();
-
+    
     // show pop up window on top
     showSimpleNotification(
       Container(
