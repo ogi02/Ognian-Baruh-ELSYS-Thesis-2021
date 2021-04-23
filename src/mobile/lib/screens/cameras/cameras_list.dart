@@ -34,25 +34,23 @@ class _CamerasListState extends State<CamerasList> {
               itemBuilder: (_, index) {
                 return Container(
                   margin: EdgeInsets.only(
-                    top: 6.0,
+                    top: 8.0,
                     left: 24.0,
                     right: 24.0,
                   ),
                   padding: EdgeInsets.zero,
-                  child: OutlinedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Camera(camera: snapshot.data[index])),
                       );
                     },
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(
-                        color: blue,
-                        width: 1.6,
-                      ),
+                    style: ElevatedButton.styleFrom(
+                      elevation: 4.0,
+                      primary: white,
                       padding: EdgeInsets.symmetric(
-                          vertical: 8.0,
+                          vertical: 10.0,
                           horizontal: 6.0
                       ),
                     ),

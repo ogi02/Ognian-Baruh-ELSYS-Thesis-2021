@@ -18,7 +18,7 @@ class LockButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(width: 150, height: 150),
-      child: OutlinedButton.icon(
+      child: ElevatedButton.icon(
         icon: Icon(
           Icons.lock_outlined,
           size: 24,
@@ -33,8 +33,9 @@ class LockButton extends StatelessWidget {
         onPressed: () async {
           await _lockService.sendLockMessage(lockUid);
         },
-        style: OutlinedButton.styleFrom(
-          backgroundColor: Colors.red,
+        style: ElevatedButton.styleFrom(
+          elevation: 8.0,
+          primary: Colors.red,
           shape: CircleBorder(),
         ),
       ),

@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
             initialData: null,
             child: OverlaySupport(
               child: MaterialApp(
+                debugShowCheckedModeBanner: false,
                 home: Wrapper(),
               ),
             ),
