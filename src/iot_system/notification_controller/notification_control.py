@@ -116,6 +116,3 @@ def send_notification(names, image):
 
 	# send cloud notification
 	send_cloud_notification(notification_id, names, now)
-
-
-send_cloud_notification("test", "Unknown", round(time() * 1000))
