@@ -10,7 +10,8 @@ from google.cloud import storage
 from google.cloud import firestore
 
 # image constants
-CAMERA_IP = "172.22.173.47"
+# CAMERA_IP = "172.22.173.47" # office
+CAMERA_IP = "192.168.1.139" # home
 AUTH_USERNAME = "service"
 AUTH_PASSWORD = "Admin!234"
 IMAGE_1 = "https://filedn.com/ltOdFv1aqz1YIFhf4gTY8D7/ingus-info/BLOGS/Photography-stocks3/stock-photography-slider.jpg"
