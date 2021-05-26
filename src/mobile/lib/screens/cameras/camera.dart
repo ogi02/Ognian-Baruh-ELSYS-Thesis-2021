@@ -30,7 +30,6 @@ class Camera extends StatefulWidget {
 class _CameraState extends State<Camera> {
   // parameters
   String _cameraName, _cameraUid;
-  Reference _cloudStorageRef;
   Future<String> _url;
   Future<String> _userId;
 
@@ -41,30 +40,39 @@ class _CameraState extends State<Camera> {
   _CameraState(camera) {
     this._cameraName = camera.get("name");
     this._cameraUid = camera.get("camera_uid");
-    
-    // reference to firebase storage
-    this._cloudStorageRef = FirebaseStorage.instance
-        .ref()
-        .child("/imagesOnDemand")
-        .child(_cameraUid);
   }
 
   @override
   initState() {
     super.initState();
-    _url = _getSnapshotUrl();
+    _url = FirebaseStorage.instance
+        .ref()
+        .child("/imagesOnDemand")
+        .child(_cameraUid)
+        .child("image_on_demand.jpg")
+        .getDownloadURL();
     _userId = SecureStorage().get("userID");
   }
 
-  void _update() {
-    setState(() {
-      _url = _getSnapshotUrl();
-    });
-  }
+  // Future<String> _getSnapshotUrl() async {
+  //   String url = await FirebaseStorage.instance
+  //       .ref()
+  //       .child("/imagesOnDemand")
+  //       .child(_cameraUid)
+  //       .child("image_on_demand.jpg")
+  //       .getDownloadURL();
+  //   return url;
+  // }
 
-  Future<String> _getSnapshotUrl() async {
-    String url = await _cloudStorageRef.child("image_on_demand.jpg").getDownloadURL();
-    return url;
+  void _updateImageUrl() {
+    setState(() {
+      _url = FirebaseStorage.instance
+          .ref()
+          .child("/imagesOnDemand")
+          .child(_cameraUid)
+          .child("image_on_demand.jpg")
+          .getDownloadURL();
+    });
   }
 
   @override
@@ -108,9 +116,8 @@ class _CameraState extends State<Camera> {
                       } else {
                         // update image
                         Future.delayed(Duration.zero, () async {
-                          _update();
+                          _updateImageUrl();
                         });
-                        // WidgetsBinding.instance.addPostFrameCallback((_) => _update());
 
                         // get timestamp from firestore
                         var timestamp = snapshot.data.docChanges.first.doc.get("time");
