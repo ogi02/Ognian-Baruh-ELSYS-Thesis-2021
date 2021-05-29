@@ -8,7 +8,8 @@ from requests.auth import HTTPDigestAuth
 
 # image constants
 # CAMERA_IP = "172.22.173.47" # office
-CAMERA_IP = "192.168.1.139" # home
+CAMERA_IP = "192.168.2.41" # home
+# CAMERA_IP = "..." # thesis
 AUTH_USERNAME = "service"
 AUTH_PASSWORD = "Admin!234"
 IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"

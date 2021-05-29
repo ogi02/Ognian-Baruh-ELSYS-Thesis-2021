@@ -3,7 +3,8 @@ import requests
 
 # url related constants
 # HOST = "172.22.150.239" # office
-HOST = "192.168.1.142" # home
+HOST = "192.168.2.50" # home
+# HOST = "..." # thesis
 PORT = "8080"
 DEVICE_UID = "da:item:ZWave%2FFD72A41B%2F5:secure%2FC7E4BE6C8D78D27ECA253BF0DF3C5F7CCA187241%2F0x62%2FZWaveDoorLock"
 LOCK_OPERATION = "setMode"

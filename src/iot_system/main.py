@@ -31,7 +31,8 @@ CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
 
 # raspberry ip
 # RASPBERRY_IP = "172.22.150.239" # office
-RASPBERRY_IP = "192.168.1.142" # home
+RASPBERRY_IP = "192.168.2.50" # home
+# RASPBERRY_IP = "..." # thesis
 
 # camera constants
 UNKNOWN = "Unknown"
@@ -48,7 +49,8 @@ CAMERA_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DE
 
 # image constants
 # CAMERA_IP = "172.22.173.47" # office
-CAMERA_IP = "192.168.1.139" # home
+CAMERA_IP = "192.168.2.50" # home
+# CAMERA_IP = "..." # thesis
 AUTH_USERNAME = "service"
 AUTH_PASSWORD = "Admin!234"
 IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
