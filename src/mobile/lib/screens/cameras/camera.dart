@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // others
+import 'dart:async';
 import 'package:intl/intl.dart';
 
 // firebase
@@ -11,68 +12,84 @@ import 'package:firebase_storage/firebase_storage.dart';
 // project
 import 'package:mobile/colors.dart';
 import 'package:mobile/services/camera.dart';
-import 'package:mobile/services/storage.dart';
 import 'package:mobile/screens/cameras/components/camera_appbar.dart';
 
 class Camera extends StatefulWidget {
   // camera object
   final DocumentSnapshot camera;
+  final String userId;
 
   // constructor
-  Camera({this.camera});
+  Camera({this.camera, this.userId});
 
   @override
   State<StatefulWidget> createState() {
-    return _CameraState(camera);
+    return _CameraState(camera, userId);
   }
 }
 
 class _CameraState extends State<Camera> {
   // parameters
-  String _cameraName, _cameraUid;
+  String _cameraName, _cameraUid, _userId;
   Future<String> _url;
-  Future<String> _userId;
+  Future<String> _time;
 
   // camera service
   final CameraService _cameraService = CameraService();
 
+  // stream subscription
+  StreamSubscription _streamSubscription;
+
   // constructor
-  _CameraState(camera) {
+  _CameraState(camera, userId) {
     this._cameraName = camera.get("name");
     this._cameraUid = camera.get("camera_uid");
+    this._userId = userId;
+
   }
 
   @override
   initState() {
     super.initState();
-    _url = FirebaseStorage.instance
+    _url = _getImageUrl();
+    _time = _getImageTime();
+    _streamSubscription = FirebaseFirestore.instance
+        .collection('user_devices')
+        .doc(_userId)
+        .collection('cameras')
+        .where('camera_uid', isEqualTo: _cameraUid)
+        .snapshots()
+        .listen((event) {
+          _updateImage();
+        });
+  }
+
+  void _updateImage() {
+    setState(() {
+      _url = _getImageUrl();
+      _time = _getImageTime();
+    });
+  }
+
+  Future<String> _getImageUrl() async {
+    String url = await FirebaseStorage.instance
         .ref()
         .child("/imagesOnDemand")
         .child(_cameraUid)
         .child("image_on_demand.jpg")
         .getDownloadURL();
-    _userId = SecureStorage().get("userID");
+    return url;
   }
 
-  // Future<String> _getSnapshotUrl() async {
-  //   String url = await FirebaseStorage.instance
-  //       .ref()
-  //       .child("/imagesOnDemand")
-  //       .child(_cameraUid)
-  //       .child("image_on_demand.jpg")
-  //       .getDownloadURL();
-  //   return url;
-  // }
-
-  void _updateImageUrl() {
-    setState(() {
-      _url = FirebaseStorage.instance
-          .ref()
-          .child("/imagesOnDemand")
-          .child(_cameraUid)
-          .child("image_on_demand.jpg")
-          .getDownloadURL();
-    });
+  Future<String> _getImageTime() async {
+    FullMetadata metadata = await FirebaseStorage
+        .instance
+        .ref()
+        .child("/imagesOnDemand")
+        .child(_cameraUid)
+        .child("image_on_demand.jpg")
+        .getMetadata();
+    return DateFormat().add_MMMMEEEEd().add_Hms().format(metadata.timeCreated);
   }
 
   @override
@@ -96,39 +113,17 @@ class _CameraState extends State<Camera> {
               },
             ),
             FutureBuilder<String>(
-              future: _userId,
+              future: _time,
               builder: (_, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                  return Container(
+                    width: 0.0,
+                    height: 0.0
+                  );
                 } else {
-                  String userId = snapshot.data;
-                  return StreamBuilder(
-                    // get stream for the document of the camera
-                    stream: FirebaseFirestore.instance
-                        .collection('user_devices')
-                        .doc(userId)
-                        .collection('cameras')
-                        .where('camera_uid', isEqualTo: _cameraUid)
-                        .snapshots(),
-                    builder: (_, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (!snapshot.hasData) {
-                        return Text("Loading ..");
-                      } else {
-                        // update image
-                        Future.delayed(Duration.zero, () async {
-                          _updateImageUrl();
-                        });
-
-                        // get timestamp from firestore
-                        var timestamp = snapshot.data.docChanges.first.doc.get("time");
-
-                        // get date from timestamp
-                        var date = DateTime.fromMillisecondsSinceEpoch(timestamp).toLocal();
-
-                        // return formatted date
-                        return Text(DateFormat().add_MMMMEEEEd().add_Hms().format(date));
-                      }
-                    },
+                  return Container(
+                    margin: EdgeInsets.all(16.0),
+                    child: Text(snapshot.data)
                   );
                 }
               },

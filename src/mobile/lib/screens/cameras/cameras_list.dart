@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // project
 import 'package:mobile/colors.dart';
+import 'package:mobile/services/storage.dart';
 import 'package:mobile/services/database.dart';
 import 'package:mobile/screens/cameras/camera.dart';
 import 'package:mobile/screens/cameras/components/loading_screen.dart';
@@ -19,6 +20,14 @@ class _CamerasListState extends State<CamerasList> {
   final CloudFirestoreService _dbService = new CloudFirestoreService();
   // camera object key constants
   final String _cameraNameKey = "name";
+  // user id
+  String _userId;
+
+  @override
+  initState() {
+    super.initState();
+    SecureStorage().get("userID").then((userId) => _userId = userId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +52,7 @@ class _CamerasListState extends State<CamerasList> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Camera(camera: snapshot.data[index])),
+                        MaterialPageRoute(builder: (context) => Camera(camera: snapshot.data[index], userId: _userId)),
                       );
                     },
                     style: ElevatedButton.styleFrom(

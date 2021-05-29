@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 // firebase
 import 'package:firebase_storage/firebase_storage.dart';
 
-// others
-import 'package:intl/intl.dart';
-
 // project
 import 'package:mobile/screens/notifications/components/notification_appbar.dart';
 
