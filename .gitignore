@@ -1,3 +1,6 @@
+# not uploading .idea folder
+.idea/
+
 # not uploading .DS_Store files
 **/.DS_Store
 
