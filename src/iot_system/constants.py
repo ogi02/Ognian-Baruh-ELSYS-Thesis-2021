@@ -1,0 +1,20 @@
+# office
+# CAMERA_IP = "172.22.173.47"
+# RASPBERRY_PI_IP = "172.22.150.239"
+
+# home
+CAMERA_IP = "192.168.2.41"
+RASPBERRY_PI_IP = "192.168.2.50"
+
+# thesis
+# CAMERA_IP = ""
+# RASPBERRY_PI_IP = ""
+
+# camera uid
+LOCK_DEVICE_UID = "da:device:ZWave:FD72A41B%2F5"
+CAMERA_DEVICE_UID = "da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009"
+
+# image
+AUTH_USERNAME = "service"
+AUTH_PASSWORD = "Admin!234"
+IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
