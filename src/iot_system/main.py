@@ -11,6 +11,7 @@ from keras_vggface.vggface import VGGFace
 import paho.mqtt.client as mqtt
 
 # project imports
+from constants import *
 from face_verification.recognize import recognize_faces
 from door_lock_controller.lock_control import lock_door
 from door_lock_controller.lock_control import unlock_door
@@ -21,18 +22,11 @@ from notification_controller.notification_control import send_notification
 TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"
 SUBSCRIPTION_NAME = "finalyearproj"
 NAMESPACE_ID = "iotSystem"
-LOCK_DEVICE_UID = "da:device:ZWave:FD72A41B%2F5"
-CAMERA_DEVICE_UID = "da:device:ONVIF:Bosch-FLEXIDOME_IP_4000i_IR-094454407323822009"
 
 # models constants
 MODEL_NAME = "vgg16"
 EMBEDDING_FILE = "./models/embeddings.npz"
 CASCADE_CLASSIFIER_FILE = "./models/haarcascade_frontalface_default.xml"
-
-# raspberry ip
-# RASPBERRY_IP = "172.22.150.239" # office
-RASPBERRY_IP = "192.168.2.50" # home
-# RASPBERRY_IP = "..." # thesis
 
 # camera constants
 UNKNOWN = "Unknown"
@@ -46,14 +40,6 @@ UNLOCK_COMMAND = "unlock"
 # device commands topics
 LOCK_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + LOCK_DEVICE_UID
 CAMERA_COMMANDS_TOPIC = SUBSCRIPTION_NAME + ":" + NAMESPACE_ID + ":" + CAMERA_DEVICE_UID
-
-# image constants
-# CAMERA_IP = "172.22.173.47" # office
-CAMERA_IP = "192.168.2.50" # home
-# CAMERA_IP = "..." # thesis
-AUTH_USERNAME = "service"
-AUTH_PASSWORD = "Admin!234"
-IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
 
 # 30000 millis = 30 sec
 millis_of_last_operation = 0
@@ -102,7 +88,7 @@ def client_on_message(self, userdata, msg):
 	payload = loads(msg.payload.decode("utf-8"))
 
 	# if message is from camera for the detected property
-	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
+	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"]:
 		# get now
 		millis_now = time() * 1000
 
@@ -143,13 +129,13 @@ if __name__ == "__main__":
 	# initialize vggface model
 	model = VGGFace(model=MODEL_NAME, include_top=False, input_shape=(160, 160, 3), pooling="avg")
 
-	# initialize mqqt client
+	# initialize mqtt client
 	client = mqtt.Client("iot_system", None, None, mqtt.MQTTv311)
 	client.on_connect = client_on_connect
 	client.on_message = client_on_message
 
 	# connect
-	client.connect(RASPBERRY_IP, 1883, 60)
+	client.connect(RASPBERRY_PI_IP, 1883, 60)
 
 	# loop forever
 	client.loop_forever()

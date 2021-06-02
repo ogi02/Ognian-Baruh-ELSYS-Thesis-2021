@@ -1,8 +1,12 @@
+# library imports
 from statistics import mean
+
+import numpy
 from scipy.spatial.distance import cosine
 
-def check_candidate_faces(trainData, candidate_embeddings, threshold=0.3):
-	'''
+
+def check_candidate_faces(train_data: numpy.array, candidate_embeddings: numpy.array, threshold: float = 0.3) -> [str]:
+	"""
 	trainData {
 		"Person 1": [emb1, emb2, emb3, ...]
 		"Person 2": [emb1, emb2, emb3, ...]
@@ -23,10 +27,10 @@ def check_candidate_faces(trainData, candidate_embeddings, threshold=0.3):
 
 	"cosine" gets the cosine of the candidate and 1 known face embedding
 
-	"mean" gets the mean of all the consines for 1 known person (10 values)
+	"mean" gets the mean of all the cosines for 1 known person (10 values)
 
 	if there is only one face:
-	scores: 
+	scores:
 		[{'Person 1': 0.20623254179954528, 'Person 2': 0.401296055316925}]
 
 	if there are more than one faces:
@@ -35,10 +39,10 @@ def check_candidate_faces(trainData, candidate_embeddings, threshold=0.3):
 			{'Person 1': 0.20623254179954528, 'Person 2': 0.40129605531692521},
 			{'Person 1': 0.51230716642703621, 'Person 2': 0.26734365280065493}
 		]
-	'''
+	"""
 
 	# get scores
-	scores = [{key: mean(cosine(known, candidate) for known in value) for key, value in trainData.items()} for candidate in candidate_embeddings]
+	scores = [{key: mean(cosine(known, candidate) for known in value) for key, value in train_data.items()} for candidate in candidate_embeddings]
 
 	names = []
 	# iterate through the scores for every candidate

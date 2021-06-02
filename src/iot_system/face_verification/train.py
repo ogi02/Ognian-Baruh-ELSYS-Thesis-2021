@@ -1,12 +1,14 @@
 # library imports
+import mtcnn
+import numpy
 from sys import exit
 from os import listdir
 from os.path import isdir
 from mtcnn.mtcnn import MTCNN
 from keras_vggface.vggface import VGGFace
-from numpy import asarray, savez_compressed
+from numpy import savez_compressed
 
-# custom functions imports
+# project imports
 from face_extract_utils import extract_single_face
 from face_embedding_utils import get_face_embedding
 
@@ -16,8 +18,9 @@ EMBEDDING_FILE = "../models/embeddings.npz"
 
 ALLOWED_EXTENSIONS = ".png", ".jpg", ".jpeg"
 
+
 # load the faces from a directory
-def load_faces(directory, detector):
+def load_faces(directory: str, detector: mtcnn.MTCNN) -> [numpy.array]:
 	faces = []
 
 	# iterate through all files
@@ -30,7 +33,7 @@ def load_faces(directory, detector):
 		image_path = directory + filename
 
 		# extract face
-		face = extract_single_face(image_path, detector)
+		face = extract_single_face(detector, image_path)
 
 		# check is face is detected
 		if face is False:
@@ -44,7 +47,7 @@ def load_faces(directory, detector):
 
 
 # load the whole dataset
-def load_dataset(directory, detector):
+def load_dataset(directory: str, detector: mtcnn.MTCNN) -> {str, [numpy.array]}:
 	dictionary = {}
 
 	# iterate through all subdirectories in the dataset aka all the people in the dataset
@@ -64,27 +67,29 @@ def load_dataset(directory, detector):
 
 	return dictionary
 
-def save_embeddings(dictionary):
+
+def save_embeddings(dataset: {str, [numpy.array]}):
 	# initialize dictionary for train data
-	trainData = {}
-	
+	train_data = {}
+
 	# initialize vggface model
 	model = VGGFace(model=MODEL_NAME, include_top=False, input_shape=(160, 160, 3), pooling="avg")
 
 	# iterate through every known person
-	for key, value in dictionary.items():
+	for key, value in dataset.items():
 		# convert each face of that person to a face embedding
-		trainData[key] = [get_face_embedding(face_pixels, model) for face_pixels in value]
+		train_data[key] = [get_face_embedding(face_pixels, model) for face_pixels in value]
 
 	# save embeddings and labels to one npz compressed file
-	savez_compressed(EMBEDDING_FILE, trainData=trainData)
+	savez_compressed(EMBEDDING_FILE, train_data=train_data)
+
 
 if __name__ == "__main__":
 	# initialize the mtcnn detector
-	detector = MTCNN()
+	mtcnn_detector = MTCNN()
 
 	# load training dataset
-	dictionary = load_dataset(DATASET_FOLDER, detector)
+	image_dataset = load_dataset(DATASET_FOLDER, mtcnn_detector)
 
 	# save embeddings
-	save_embeddings(dictionary)
+	save_embeddings(image_dataset)

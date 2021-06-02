@@ -1,25 +1,23 @@
 # library imports
+import mtcnn
+import numpy
 from PIL import Image
+from typing import Tuple
 from requests import get
 from numpy import asarray
 from requests.auth import HTTPDigestAuth
 
+# project constants
+from ..constants import *
+
 # image related constants
 IMAGE_WIDTH = 160
 IMAGE_HEIGHT = 160
-REQUIRED_SIZE = [IMAGE_WIDTH, IMAGE_HEIGHT]
-
-# camera url constants
-# CAMERA_IP = "172.22.173.47" # office
-CAMERA_IP = "192.168.2.41" # home
-# CAMERA_IP = "..." # thesis
-AUTH_USERNAME = "service"
-AUTH_PASSWORD = "Admin!234"
-IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
+REQUIRED_SIZE = (IMAGE_WIDTH, IMAGE_HEIGHT)
 
 
 # open image from file
-def get_pixels_from_file(filename):
+def get_pixels_from_file(filename: str) -> numpy.array:
 	# open the image from file
 	image = Image.open(filename)
 
@@ -37,7 +35,7 @@ def get_pixels_from_file(filename):
 
 
 # open image from url
-def get_pixels_from_url(url=IMAGE_FROM_CAMERA_URL):
+def get_pixels_from_url(url: str = IMAGE_FROM_CAMERA_URL) -> numpy.array:
 	# retrieve image from url
 	resp = get(url, auth=HTTPDigestAuth(AUTH_USERNAME, AUTH_PASSWORD), stream=True)
 
@@ -58,7 +56,7 @@ def get_pixels_from_url(url=IMAGE_FROM_CAMERA_URL):
 
 
 # crop face from image
-def crop_face(face_box, pixels, required_size=REQUIRED_SIZE):
+def crop_face(face_box: [int], pixels: numpy.array, required_size: Tuple[int] = REQUIRED_SIZE) -> Image:
 	# get beginning coordinates, width and height of face
 	x1, y1, width, height = face_box
 
@@ -81,7 +79,7 @@ def crop_face(face_box, pixels, required_size=REQUIRED_SIZE):
 
 
 # extract a single face from a given image
-def extract_single_face(filename, detector):
+def extract_single_face(detector: mtcnn.MTCNN, filename: str) -> numpy.array:
 	# open the image and get the pixels
 	pixels = get_pixels_from_file(filename)
 
@@ -99,7 +97,7 @@ def extract_single_face(filename, detector):
 
 
 # extract multiple faces from a given image
-def extract_multiple_faces(detector, filename=None):
+def extract_multiple_faces(detector: mtcnn.MTCNN, filename: str = None) -> [numpy.array]:
 	# if filename is given
 	if filename is not None:
 		# open image from file

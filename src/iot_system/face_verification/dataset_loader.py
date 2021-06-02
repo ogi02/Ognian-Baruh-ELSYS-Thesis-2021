@@ -1,20 +1,47 @@
 # library imports
 import cv2
 from os import mkdir
+from typing import List
 from sys import exit, argv
 from getopt import getopt, GetoptError
 
 PATH = "./dataset/"
 
 
-def get_name(argv):
+def get_name(arguments: List[str]) -> str:
 	# init first name and last name
 	fname = ''
 	lname = ''
 
 	# get opts from command line
 	try:
-		opts, args = getopt(argv, 'f:l:h', ["fname=", "lname=", "help="])
+		opts, args = getopt(arguments, 'f:l:h', ["fname=", "lname=", "help="])
+
+		# iterate through opts and get first and last name
+		for opt, arg in opts:
+			if opt in ('-f', '--fname'):
+				fname = arg
+			elif opt in ('-l', '--lname'):
+				lname = arg
+			elif opt in ('-h', '--help'):
+				print("-h, --help    ->    shows this screen")
+				print("-f, --fname    ->    first name of the person")
+				print("-l, --lname    ->    last name of the person")
+				print("Note: There can't be two people with the same full name!")
+				exit(1)
+
+		# check if names are given
+		if not fname and not lname:
+			print("Wrong usage!")
+			print("Correct usages:")
+			print("$ python3 dataset_loader.py -f <FirstName> -l <LastName>")
+			print("or")
+			print("$ python3 dataset_loader.py --fname <FirstName> --lname <LastName>")
+			exit(1)
+
+		# get full name
+		return fname + ' ' + lname
+
 	# catch error
 	except GetoptError:
 		print("Wrong usage!")
@@ -24,45 +51,19 @@ def get_name(argv):
 		print("$ python3 dataset_loader.py --fname <FirstName> --lname <LastName>")
 		exit(1)
 
-	# iterate through opts and get first and last name
-	for opt, arg in opts:
-		if opt in ('-f', '--fname'):
-			fname = arg
-		elif opt in ('-l', '--lname'):
-			lname = arg
-		elif opt in ('-h', '--help'):
-			print("-h, --help    ->    shows this screen")
-			print("-f, --fname    ->    first name of the person")
-			print("-l, --lname    ->    last name of the person")
-			print("Note: There can't be two people with the same full name!")
-			exit(1)
 
-	# check if names are given
-	if not fname and not lname:
-		print("Wrong usage!")
-		print("Correct usages:")
-		print("$ python3 dataset_loader.py -f <FirstName> -l <LastName>")
-		print("or")
-		print("$ python3 dataset_loader.py --fname <FirstName> --lname <LastName>")
-		exit(1)
-
-	# get full name
-	name = fname + ' ' + lname
-	return name
-
-
-def create_dir(name):
+def create_dir(full_name: str) -> str:
 	# create full path
-	full_path = PATH + name
+	path_from_name = PATH + full_name
 
 	# create directory
-	mkdir(full_path)
+	mkdir(path_from_name)
 
 	# return new path
-	return full_path
+	return path_from_name
 
 
-def create_images(full_path):
+def create_images(path: str) -> None:
 	# init camera
 	cam = cv2.VideoCapture(0)
 	window_message = "Press space to take a photo!"
@@ -98,7 +99,7 @@ def create_images(full_path):
 			# increment image count
 			image_count += 1
 			# generate full path for the image
-			image_path = full_path + "/image_" + str(image_count) + ".jpg"
+			image_path = path + "/image_" + str(image_count) + ".jpg"
 			# write the frame at the certain path
 			cv2.imwrite(image_path, frame)
 			print("Image " + str(image_count) + " written!")
