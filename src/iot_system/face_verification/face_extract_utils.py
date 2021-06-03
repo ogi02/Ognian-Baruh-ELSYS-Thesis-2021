@@ -8,7 +8,7 @@ from numpy import asarray
 from requests.auth import HTTPDigestAuth
 
 # project constants
-from ..constants import *
+from iot_system.constants import *
 
 # image related constants
 IMAGE_WIDTH = 160
