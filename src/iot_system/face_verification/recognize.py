@@ -4,9 +4,9 @@ import numpy
 from tensorflow.python.keras.models import Model
 
 # project imports
-from ..face_verification.face_extract_utils import extract_multiple_faces
-from ..face_verification.face_embedding_utils import get_face_embedding
-from ..face_verification.candidate_face_check import check_candidate_faces
+from face_extract_utils import extract_multiple_faces
+from face_embedding_utils import get_face_embedding
+from candidate_face_check import check_candidate_faces
 
 
 # recognize faces
@@ -19,7 +19,7 @@ def recognize_faces(train_data: numpy.array, detector: mtcnn.MTCNN, model: Model
 
 	# check for faces in the image
 	if not candidate_faces:
-		return ['No faces detected']
+		return ["No faces detected"]
 
 	print("Generating face embeddings...")
 

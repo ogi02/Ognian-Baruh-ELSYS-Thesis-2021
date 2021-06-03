@@ -6,7 +6,7 @@ from google.cloud import firestore
 from requests.auth import HTTPDigestAuth
 
 # project imports
-from ..constants import *
+from iot_system.constants import *
 
 # bucket constants
 BUCKET_ID = "iot-home-system-7dab8.appspot.com"
@@ -39,7 +39,7 @@ def send_image_to_cloud_storage() -> None:
 	# upload image
 	blob.upload_from_string(
 		image_data,
-		content_type='image/jpg'
+		content_type="image/jpg"
 	)
 
 
@@ -48,19 +48,16 @@ def send_time_of_image_to_firestore() -> None:
 	# init firestore client
 	db = firestore.Client()
 
-	# init main collection
-	main_collection = (u'user_devices',)
-
 	# get document
-	doc_ref = db.collection(main_collection).document(u'xjMJgd3PP8XuGwlpdrBRnUf0ThC3').collection(u'cameras').document(
-		u'LlI2EAybxztHMtt7ooGq')
+	doc_ref = db.collection(u"user_devices").document(u"xjMJgd3PP8XuGwlpdrBRnUf0ThC3").collection(u"cameras").document(
+		u"LlI2EAybxztHMtt7ooGq")
 
 	# get now time
 	now = round(time() * 1000)
 
 	# update values
 	doc_ref.update({
-		u'time': now
+		u"time": now
 	})
 
 
