@@ -6,7 +6,7 @@ from google.cloud import firestore
 from requests.auth import HTTPDigestAuth
 
 # project imports
-from iot_system.constants import *
+from constants import *
 
 # bucket constants
 BUCKET_ID = "iot-home-system-7dab8.appspot.com"

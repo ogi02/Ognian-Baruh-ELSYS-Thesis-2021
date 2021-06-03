@@ -88,7 +88,9 @@ def client_on_message(self, userdata, msg):
 	payload = loads(msg.payload.decode("utf-8"))
 
 	# if message is from camera for the detected property
-	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"]:
+	if payload["path"] == "/features/Detector:%2FEventsService%2F1/properties/status/detected" and payload["value"] == True:
+		print("Detected!")
+
 		# get now
 		millis_now = time() * 1000
 

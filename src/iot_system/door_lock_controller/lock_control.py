@@ -3,7 +3,7 @@ import json
 import requests
 
 # project imports
-from iot_system.constants import *
+from constants import *
 
 # url related constants
 PORT = "8080"

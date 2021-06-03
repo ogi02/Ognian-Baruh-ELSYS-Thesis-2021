@@ -9,7 +9,7 @@ from google.cloud import storage
 from google.cloud import firestore
 
 # project imports
-from iot_system.constants import *
+from constants import *
 
 # bucket constants
 BUCKET_ID = "iot-home-system-7dab8.appspot.com"
