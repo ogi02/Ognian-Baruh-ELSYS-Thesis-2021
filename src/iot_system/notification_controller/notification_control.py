@@ -9,7 +9,7 @@ from google.cloud import storage
 from google.cloud import firestore
 
 # project imports
-from ..constants import *
+from iot_system.constants import *
 
 # bucket constants
 BUCKET_ID = "iot-home-system-7dab8.appspot.com"
@@ -43,11 +43,8 @@ def send_update_to_firestore(notification_id: str, names: [str], timestamp: time
 	# init firestore client
 	db = firestore.Client()
 
-	# init main collection
-	main_collection = (u"notifications",)
-
 	# get document reference
-	doc_ref = db.collection(main_collection).document(notification_id)
+	doc_ref = db.collection(u"notifications").document(notification_id)
 
 	# update values
 	doc_ref.set({
@@ -63,11 +60,8 @@ def send_cloud_notification(names: [str], timestamp: time) -> Union[None, bool]:
 	# init firestore client
 	db = firestore.Client()
 
-	# init main collection
-	main_collection = (u"camera_ownership",)
-
 	# get document reference
-	doc_ref = db.collection(main_collection).document(CAMERA_DEVICE_UID)
+	doc_ref = db.collection(u"camera_ownership").document(CAMERA_DEVICE_UID)
 
 	# get document
 	doc = doc_ref.get()
