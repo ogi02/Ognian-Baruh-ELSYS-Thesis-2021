@@ -12,11 +12,11 @@ import paho.mqtt.client as mqtt
 
 # project imports
 from constants import *
-from iot_system.face_verification.recognize import recognize_faces
-from iot_system.door_lock_controller.lock_control import lock_door
-from iot_system.door_lock_controller.lock_control import unlock_door
-from iot_system.camera_controller.screenshot_control import send_screenshot
-from iot_system.notification_controller.notification_control import send_notification
+from face_verification.recognize import recognize_faces
+from door_lock_controller.lock_control import lock_door
+from door_lock_controller.lock_control import unlock_door
+from camera_controller.screenshot_control import send_screenshot
+from notification_controller.notification_control import send_notification
 
 # bosch iot suite constants
 TENANT_ID = "ta5c5ad439fe14b32af99092f74e594eb_hub"

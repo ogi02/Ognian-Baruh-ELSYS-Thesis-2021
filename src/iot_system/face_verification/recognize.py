@@ -4,9 +4,9 @@ import numpy
 from tensorflow.python.keras.models import Model
 
 # project imports
-from face_extract_utils import extract_multiple_faces
-from face_embedding_utils import get_face_embedding
-from candidate_face_check import check_candidate_faces
+from .face_extract_utils import extract_multiple_faces
+from .face_embedding_utils import get_face_embedding
+from .candidate_face_check import check_candidate_faces
 
 
 # recognize faces
