@@ -3,6 +3,7 @@ import mtcnn
 import numpy
 from sys import exit
 from os import listdir
+from typing import List
 from os.path import isdir
 from mtcnn.mtcnn import MTCNN
 from keras_vggface.vggface import VGGFace
@@ -20,7 +21,7 @@ ALLOWED_EXTENSIONS = ".png", ".jpg", ".jpeg"
 
 
 # load the faces from a directory
-def load_faces(directory: str, detector: mtcnn.MTCNN) -> [numpy.array]:
+def load_faces(directory: str, detector: mtcnn.MTCNN) -> List[numpy.array]:
 	faces = []
 
 	# iterate through all files
@@ -47,7 +48,7 @@ def load_faces(directory: str, detector: mtcnn.MTCNN) -> [numpy.array]:
 
 
 # load the whole dataset
-def load_dataset(directory: str, detector: mtcnn.MTCNN) -> {str, [numpy.array]}:
+def load_dataset(directory: str, detector: mtcnn.MTCNN) -> {str, List[numpy.array]}:
 	dictionary = {}
 
 	# iterate through all subdirectories in the dataset aka all the people in the dataset
@@ -68,7 +69,7 @@ def load_dataset(directory: str, detector: mtcnn.MTCNN) -> {str, [numpy.array]}:
 	return dictionary
 
 
-def save_embeddings(dataset: {str, [numpy.array]}):
+def save_embeddings(dataset: {str, List[numpy.array]}):
 	# initialize dictionary for train data
 	train_data = {}
 

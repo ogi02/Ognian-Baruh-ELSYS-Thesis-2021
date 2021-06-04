@@ -7,8 +7,11 @@ from requests import get
 from numpy import asarray
 from requests.auth import HTTPDigestAuth
 
-# project constants
-from constants import *
+# image
+CAMERA_IP = "192.168.2.41"
+AUTH_USERNAME = "service"
+AUTH_PASSWORD = "Admin!234"
+IMAGE_FROM_CAMERA_URL = "http://" + CAMERA_IP + "/snap.jpg?JpegCam=1"
 
 # image related constants
 IMAGE_WIDTH = 160
